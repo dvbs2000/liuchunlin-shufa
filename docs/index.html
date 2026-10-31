@@ -1,0 +1,1682 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>刘春霖 AI 小楷书房 · 在线检索唐诗宋词生成专属书法册页</title>
+  <link rel="preconnect" href="https://ai.top915.top" crossorigin />
+  <link rel="dns-prefetch" href="https://ai.top915.top" />
+  <link rel="preload" as="image" href="gallery/logo_tengwangge_v2.webp" type="image/webp" fetchpriority="high" />
+  <link rel="preload" as="image" href="gallery/p0014_trad_zhalan_v2_24c.webp" type="image/webp" fetchpriority="high" />
+  <style>
+    :root {
+      --bg-paper: #efe8d8;
+      --card-paper: #f9f5eb;
+      --ink-dark: #1f1b18;
+      --ink-muted: #635546;
+      --cinnabar: #a8221a;
+      --cinnabar-light: #f9ecea;
+      --gold-border: #cbb89a;
+      --silk-footer: #d6cdbc;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg-paper);
+      background-image: radial-gradient(circle at 50% 18%, #f7f1e5 0%, #e3d8c3 100%);
+      color: var(--ink-dark);
+      font-family: "PingFang SC", "Hiragino Sans GB", "Noto Serif SC", "Songti SC", serif;
+      line-height: 1.55;
+      min-height: 100vh;
+      padding-bottom: 48px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .top-card-wrap {
+      max-width: 1220px;
+      margin: 12px auto 0;
+      padding: 0 20px;
+    }
+    .top-d-grid {
+      background: linear-gradient(135deg, #6b1d16 0%, #7d241c 50%, #591610 100%);
+      border: 1.5px solid #dab478;
+      border-radius: 10px;
+      padding: 12px 0;
+      display: grid;
+      grid-template-columns: 446px minmax(0, 1fr);
+      gap: 22px;
+      align-items: center;
+      box-shadow: 0 12px 30px rgba(90, 22, 16, 0.22), inset 0 0 0 3px #681c15, inset 0 0 0 4.5px rgba(226, 190, 130, 0.45);
+    }
+    .header-intro-left {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      padding-left: 24px;
+    }
+    .seal-badge {
+      display: inline-block;
+      background: rgba(25, 12, 10, 0.35);
+      color: #fae6c3;
+      font-size: 12px;
+      padding: 3px 11px;
+      border-radius: 3px;
+      border: 1px solid #e6c288;
+      margin-bottom: 10px;
+      letter-spacing: 2px;
+      font-weight: 600;
+    }
+    .header-intro-left h1 {
+      font-size: 30px;
+      font-weight: 700;
+      color: #fff6e5;
+      letter-spacing: 3.5px;
+      margin-bottom: 9px;
+      font-family: "Songti SC", "STSong", "Noto Serif SC", serif;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.28);
+      white-space: nowrap;
+    }
+    .header-intro-left p {
+      font-size: 13px;
+      color: #edd8ba;
+      line-height: 1.65;
+      margin-bottom: 14px;
+    }
+    .header-btns {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: flex-start;
+    }
+    .h-review-btn {
+      display: inline-flex;
+      align-items: center;
+      background: linear-gradient(135deg, #f3d299 0%, #d8ae68 100%);
+      color: #3b120d;
+      text-decoration: none;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      border: 1px solid #fff2d6;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.25);
+      white-space: nowrap;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .h-review-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 5px 14px rgba(0,0,0,0.35);
+    }
+    .h-mail-pill {
+      background: rgba(0, 0, 0, 0.22);
+      border: 1px solid rgba(236, 204, 152, 0.45);
+      color: #f7e6c9;
+      font-size: 11.8px;
+      padding: 4px 13px;
+      border-radius: 20px;
+    }
+    .h-mail-pill strong {
+      color: #ffd984;
+      user-select: all;
+    }
+    .header-scroll-right {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-left: 0;
+      padding-right: 18px;
+    }
+    .moved-up-scroll-frame {
+      width: 100%;
+      border-radius: 7px;
+      overflow: hidden;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.42);
+      border: 1.5px solid #e2be84;
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .moved-up-scroll-frame:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 34px rgba(0,0,0,0.52);
+    }
+    .moved-up-scroll-frame img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .scroll-hover-hint {
+      position: absolute;
+      bottom: 8px;
+      right: 10px;
+      background: rgba(59, 18, 13, 0.86);
+      color: #fae6c3;
+      border: 1px solid #e2be84;
+      font-size: 11px;
+      padding: 3px 10px;
+      border-radius: 99px;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      pointer-events: none;
+    }
+    .moved-up-scroll-frame:hover .scroll-hover-hint {
+      opacity: 1;
+    }
+
+    /* ==========================================================================
+       下方主工作区：与顶栏严格共享 1220px 容器与 446px : minmax(0, 1fr) 黄金比例网格
+       ========================================================================== */
+    .container {
+      max-width: 1220px;
+      margin: 12px auto 18px;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 446px minmax(0, 1fr);
+      gap: 22px;
+      align-items: stretch;
+    }
+    @media (max-width: 960px) {
+      .top-d-grid {
+        grid-template-columns: 1fr;
+        padding: 16px;
+      }
+      .header-intro-left {
+        padding-left: 4px;
+      }
+      .header-scroll-right {
+        padding-right: 0;
+      }
+      .container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .panel {
+      background: var(--card-paper);
+      border: 1px solid var(--gold-border);
+      border-radius: 10px;
+      padding: 13px 16px;
+      box-shadow: 0 8px 26px rgba(42, 31, 19, 0.08), inset 0 0 0 2px #fdfaf3, inset 0 0 0 3px #e6dac5;
+      display: flex;
+      flex-direction: column;
+    }
+    .panel-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #211b16;
+      border-bottom: 1px solid #e2d6c1;
+      padding-bottom: 7px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+    }
+    .title-left-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+    .cinnabar-bar {
+      width: 5px;
+      height: 15px;
+      background: var(--cinnabar);
+      border-radius: 2px;
+      display: inline-block;
+    }
+    .count-badge {
+      font-size: 11px;
+      background: #ede1cd;
+      color: #69543a;
+      padding: 2px 7px;
+      border-radius: 99px;
+      font-weight: 600;
+    }
+    .quota-pill {
+      font-size: 10.8px;
+      font-weight: 600;
+      background: #efe4d2;
+      color: #7c5832;
+      padding: 3px 9px;
+      border-radius: 99px;
+      border: 1px solid #d5c3a6;
+      white-space: nowrap;
+    }
+
+    /* 搜索与镇馆名篇快捷区 */
+    .search-box-wrap {
+      background: #fffdf9;
+      border: 1px solid #d5c3a6;
+      border-radius: 8px;
+      padding: 9px 11px;
+      margin-bottom: 9px;
+    }
+    .search-input {
+      width: 100%;
+      padding: 6px 10px;
+      border: 1px solid #cbb899;
+      border-radius: 6px;
+      font-size: 12.8px;
+      background: #fff;
+      color: #2b231b;
+      outline: none;
+    }
+    .search-input:focus {
+      border-color: var(--cinnabar);
+    }
+    .featured-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 7px;
+      padding-bottom: 6px;
+      border-bottom: 1px dashed #e2d4be;
+    }
+    .feat-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--cinnabar);
+    }
+    .feat-chip {
+      font-size: 10.8px;
+      padding: 2px 7px;
+      border-radius: 99px;
+      background: #f7efe0;
+      border: 1px solid #d8c5a7;
+      color: #524332;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .feat-chip:hover, .feat-chip.active {
+      background: #fcece9;
+      border-color: var(--cinnabar);
+      color: var(--cinnabar);
+      font-weight: 600;
+    }
+    .cat-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin: 6px 0;
+    }
+    .cat-pill {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 12px;
+      background: #efe6d5;
+      color: #5c5042;
+      border: 1px solid #d5c5ab;
+      cursor: pointer;
+    }
+    .cat-pill.active {
+      background: var(--cinnabar);
+      color: #fff;
+      border-color: var(--cinnabar);
+      font-weight: 600;
+    }
+    .poem-list {
+      max-height: 112px;
+      overflow-y: auto;
+      border-top: 1px dashed #e2d5c1;
+      padding-top: 4px;
+    }
+    .poem-item {
+      padding: 5px 7px;
+      border-radius: 4px;
+      font-size: 12px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #f4ede0;
+    }
+    .poem-item:hover, .poem-item.selected {
+      background: var(--cinnabar-light);
+      color: var(--cinnabar);
+    }
+    .poem-item-title { font-weight: 600; }
+    .poem-item-preview {
+      color: #847768;
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+    }
+    .p-len {
+      font-style: normal;
+      background: #efe5d4;
+      color: #63513d;
+      padding: 1px 6px;
+      border-radius: 99px;
+      font-size: 10px;
+    }
+    .p-len.scroll {
+      background: #f9e4e1;
+      color: var(--cinnabar);
+      font-weight: 600;
+    }
+
+    .custom-email-notice {
+      background: #f4ead8;
+      border: 1px solid #d5c2a3;
+      border-radius: 6px;
+      padding: 7px 10px;
+      margin-bottom: 8px;
+      font-size: 12px;
+      color: #554738;
+    }
+    .custom-email-notice a, .custom-email-notice strong {
+      color: var(--cinnabar);
+      font-weight: 600;
+      user-select: all;
+      text-decoration: none;
+    }
+
+    .field-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11.5px;
+      color: var(--ink-muted);
+      margin: 5px 0 4px;
+      gap: 6px;
+    }
+    .char-status-pill {
+      background: #fdf0ed;
+      border: 1px solid #dfb2ac;
+      color: var(--cinnabar);
+      padding: 1px 7px;
+      border-radius: 99px;
+      font-size: 10.5px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    textarea, input[type="text"] {
+      width: 100%;
+      background: #fffdf9;
+      border: 1px solid #cbb99b;
+      border-radius: 6px;
+      padding: 7px 10px;
+      font-size: 12.8px;
+      color: var(--ink-dark);
+      font-family: inherit;
+    }
+    textarea {
+      height: 58px;
+      resize: vertical;
+      line-height: 1.48;
+    }
+    textarea[readonly], input[readonly] {
+      background: #f4ede0;
+      color: #4a4035;
+      cursor: pointer;
+    }
+    .smart-banner {
+      margin-top: 6px;
+      background: #f3ead9;
+      border-left: 3px solid var(--cinnabar);
+      padding: 5px 9px;
+      font-size: 11.3px;
+      color: #4a3e32;
+      border-radius: 0 4px 4px 0;
+    }
+    .row-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    /* 分段式古风拨片开关 (Segmented Control) */
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .opt-label {
+      font-size: 11.3px;
+      color: var(--ink-muted);
+      margin-bottom: 4px;
+      font-weight: 600;
+      display: block;
+    }
+    .radio-group {
+      display: flex;
+      background: #ebe0cd;
+      padding: 3px;
+      border-radius: 6px;
+      gap: 4px;
+    }
+    .radio-card {
+      flex: 1;
+      text-align: center;
+      padding: 5px 4px;
+      font-size: 11.4px;
+      border-radius: 4px;
+      color: #544637;
+      cursor: pointer;
+      white-space: nowrap;
+      border: 1px solid transparent;
+      transition: all 0.15s ease;
+    }
+    .radio-card.selected {
+      background: var(--cinnabar);
+      color: #fff;
+      font-weight: 600;
+      box-shadow: 0 1px 4px rgba(168,34,26,0.3);
+    }
+    .radio-card.outline-selected {
+      background: #fff8eb;
+      color: var(--cinnabar);
+      border-color: var(--cinnabar);
+      font-weight: 600;
+    }
+
+    .submit-btn {
+      width: 100%;
+      margin-top: 11px;
+      padding: 11px;
+      background: linear-gradient(135deg, #b5261e 0%, #8f1812 100%);
+      color: #fff;
+      border: 1px solid #e3b782;
+      border-radius: 7px;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(168, 34, 26, 0.28);
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+    }
+    .submit-btn:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(168, 34, 26, 0.36);
+    }
+    .submit-btn:disabled {
+      background: #9e8f7c;
+      cursor: wait;
+    }
+
+    /* 右侧：作品装裱展柜 */
+    .preview-wrap {
+      display: flex;
+      flex-direction: column;
+    }
+    .preview-toolbar {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+    }
+    .pt-btn {
+      font-size: 11.2px;
+      padding: 3px 9px;
+      border-radius: 5px;
+      background: #eee3d0;
+      color: #524333;
+      border: 1px solid #d5c3a6;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+    .pt-btn:hover {
+      border-color: var(--cinnabar);
+      color: var(--cinnabar);
+    }
+    .pt-btn.active {
+      background: var(--cinnabar);
+      color: #fff;
+      border-color: var(--cinnabar);
+    }
+    .artwork-stage {
+      flex: 1;
+      background: radial-gradient(circle at 50% 50%, #e6dcc8 0%, #d8cbb3 100%);
+      border: 1px solid #c4b193;
+      border-radius: 8px;
+      padding: 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: inset 0 2px 12px rgba(0,0,0,0.07);
+      min-height: 410px;
+    }
+    .artwork-frame {
+      background: #e3d9c6;
+      padding: 9px;
+      border-radius: 6px;
+      border: 1px solid #bfa988;
+      box-shadow: 0 10px 28px rgba(25, 18, 11, 0.16);
+      max-width: 100%;
+    }
+    .artwork-frame img {
+      max-width: 100%;
+      max-height: 525px;
+      width: auto;
+      height: auto;
+      display: block;
+      border-radius: 2px;
+      cursor: zoom-in;
+      transition: opacity 0.18s ease;
+    }
+    .action-bar {
+      margin-top: 12px;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .download-btn {
+      background: #2b2520;
+      color: #f6efe2;
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      border: 1px solid #9c8463;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .download-btn:hover {
+      background: #3d342d;
+    }
+    .share-tip {
+      font-size: 12px;
+      color: var(--cinnabar);
+      font-weight: 600;
+    }
+
+    /* 全屏博物院级放大镜灯箱 */
+    .lightbox-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(18, 14, 11, 0.92);
+      backdrop-filter: blur(6px);
+      z-index: 9999;
+      flex-direction: column;
+      user-select: none;
+    }
+    .lightbox-overlay.open {
+      display: flex;
+    }
+    .lb-topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 24px;
+      background: rgba(32, 24, 19, 0.9);
+      border-bottom: 1px solid rgba(218, 180, 120, 0.3);
+      color: #f6ead4;
+      font-size: 13.5px;
+    }
+    .lb-controls {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .lb-btn {
+      background: rgba(255, 246, 228, 0.12);
+      color: #f7ead2;
+      border: 1px solid rgba(218, 180, 120, 0.45);
+      padding: 5px 12px;
+      border-radius: 6px;
+      font-size: 12.5px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .lb-btn:hover, .lb-btn.active {
+      background: var(--cinnabar);
+      border-color: #f3d299;
+      color: #fff;
+    }
+    .lb-viewport {
+      flex: 1;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: grab;
+      position: relative;
+    }
+    .lb-viewport:active {
+      cursor: grabbing;
+    }
+    .lb-viewport img {
+      max-width: 92vw;
+      max-height: 84vh;
+      object-fit: contain;
+      transform-origin: center center;
+      transition: transform 0.08s ease-out;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.65);
+      border-radius: 4px;
+    }
+    .evolve-modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(20, 15, 12, 0.88);
+      backdrop-filter: blur(5px);
+      z-index: 9500;
+      justify-content: center;
+      align-items: center;
+      padding: 10px;
+    }
+    .evolve-modal-overlay.open {
+      display: flex;
+    }
+    .evolve-modal-card {
+      background: #faf5ea;
+      border: 2px solid #c5ab86;
+      border-radius: 12px;
+      max-width: 520px;
+      width: 100%;
+      max-height: 94vh;
+      overflow-y: auto;
+      padding: 14px 18px;
+      color: #231d18;
+      box-shadow: 0 18px 50px rgba(0,0,0,0.48);
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-card-wrap">
+  <div class="top-d-grid">
+    <div class="header-intro-left">
+      <div class="seal-badge">状元小楷 · 宣纸真迹神韵</div>
+      <h1>刘春霖 AI 小楷书房</h1>
+      <p>在线检索 963 首传世唐诗·宋词·古文·经文名篇<br/>一秒生成故宫装裱级小楷书法册页</p>
+      <div class="header-btns">
+        <a id="topReviewWorkbenchBtn" href="/review" target="_blank" class="h-review-btn" style="display:none;">
+          🔍 打开「全字库按常用排序审阅与换字工作台」(10,065字)
+        </a>
+        <div class="h-mail-pill">版权约定：<strong>个人免费，商用收费</strong> · 如需合作请联系 <strong>sdicfund@hotmail.com</strong></div>
+      </div>
+    </div>
+    <div class="header-scroll-right">
+      <div class="moved-up-scroll-frame" onclick="loadTengwanggeScrollLogo()" title="点击在下方画案加载此卷《滕王阁序》24列行楷手卷">
+        <picture>
+          <source srcset="gallery/logo_tengwangge_v2.webp" type="image/webp" />
+          <img src="gallery/logo_tengwangge_v2.jpg" width="900" height="475" fetchpriority="high" decoding="async" alt="王勃《滕王阁序》第二版 24列行楷手卷" />
+        </picture>
+        <span class="scroll-hover-hint">✨ 点击在下方画案加载此卷 24 列《滕王阁序》</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <!-- 左侧：唐诗宋词检索与章法控制面板 -->
+  <div class="panel left-panel">
+    <div class="panel-title">
+      <div class="title-left-wrap">
+        <span class="cinnabar-bar"></span>
+        <span id="leftPanelTitle">检索传世诗词名篇体验</span>
+        <span class="count-badge">963 篇典藏</span>
+      </div>
+      <span class="quota-pill" id="quotaBadge">每小时限免：10 篇 / IP</span>
+    </div>
+
+    <div class="search-box-wrap">
+      <input type="text" id="poemSearchInput" class="search-input" placeholder="🔍 搜索诗名、作者或诗句（如：苏轼、李白、将进酒、滕王阁序）..." oninput="renderPoemList()" />
+      <div class="featured-row">
+        <span class="feat-label">🔥 镇馆名篇：</span>
+        <span class="feat-chip active" id="feat_p0014" onclick="quickSelectFeatured('p0014', true)">✨ 滕王阁序(长卷)</span>
+        <span class="feat-chip" id="feat_p0021" onclick="quickSelectFeatured('p0021', false)">🍷 将进酒</span>
+        <span class="feat-chip" id="feat_p0001" onclick="quickSelectFeatured('p0001', true)">🌊 春江花月夜</span>
+        <span class="feat-chip" id="feat_p0003" onclick="quickSelectFeatured('p0003', true)">🪷 心经</span>
+        <span class="feat-chip" id="feat_p0004" onclick="quickSelectFeatured('p0004', true)">🎋 兰亭集序</span>
+        <span class="feat-chip" id="feat_p0011" onclick="quickSelectFeatured('p0011', false)">📜 诫子书</span>
+      </div>
+      <div class="cat-bar">
+        <span class="cat-pill active" onclick="setCat('', this)">全部名篇 (963)</span>
+        <span class="cat-pill" onclick="setCat('唐诗', this)">唐诗三百首</span>
+        <span class="cat-pill" onclick="setCat('宋词', this)">宋词三百首</span>
+        <span class="cat-pill" onclick="setCat('古文名篇', this)">古文名篇</span>
+        <span class="cat-pill" onclick="setCat('经文国学', this)">心经/道德经</span>
+        <span class="cat-pill" onclick="setCat('诗经楚辞', this)">诗经</span>
+      </div>
+      <div class="poem-list" id="poemListContainer">
+        <div style="padding:8px;color:#888;font-size:12px;">正在加载传世诗词典藏库...</div>
+      </div>
+    </div>
+
+    <div class="custom-email-notice" id="complianceNotice">
+      💡 请从上方检索点选诗词名篇生成书法大图；点击右侧字帖上任意单字即可精修写法，下方关注公众号可免费下载 10,673 字完整版 TTF 字库。商业合作联系：<strong><a href="mailto:sdicfund@hotmail.com">sdicfund@hotmail.com</a></strong>
+    </div>
+
+    <div class="field-label">
+      <span id="poemInputLabel">当前选中诗词正文（点选上方诗词后，点击下方「立即挥毫生成书法作品」）：</span>
+      <span class="char-status-pill" id="charStatusPill">当前 <strong>331</strong> 字 · <strong>24列长卷</strong></span>
+    </div>
+    <textarea id="poemInput" readonly onclick="handleLockedClick()" oninput="updateSmartBanner()">《滕王閣序》
+王勃
+豫章故郡，洪都新府。星分翼軫，地接衡廬。襟三江而帶五湖，控蠻荊而引甌越。物華天寶，龍光射牛斗之墟；人傑地靈，徐孺下陳蕃之榻。雄州霧列，俊採星馳。臺隍枕夷夏之交，賓主盡東南之美。都督閻公之雅望，棨戟遙臨；宇文新州之懿範，襜帷暫駐。十旬休假，勝友如雲；千里逢迎，高朋滿座。騰蛟起鳳，孟學士之詞宗；紫電青霜，王將軍之武庫。家君作宰，路出名區；童子何知，躬逢勝餞。時維九月，序屬三秋。潦水盡而寒潭清，烟光凝而暮山紫。儼驂於上路，訪風景於崇阿；臨帝子之長洲，得天人之舊館。層臺聳翠，上出重霄；飛閣流丹，下臨無地。鶴汀鳧渚，窮島嶼之縈迴；桂殿蘭宮，即岡巒之體勢。披繡闥，俯雕甍，山原曠其盈視，川澤紆其駭矚。閭閻撲地，鐘鳴鼎食之家；舸艦彌津，青雀黃龍之軸。雲銷雨霽，彩徹區明。落霞與孤鶩齊飛，秋水共長天一色。漁舟唱晚，響窮彭蠡之濱；雁陣驚寒，聲斷衡陽之浦。遙襟甫暢，逸興遄飛。爽籟發而清風生，纖歌凝而白雲遏。</textarea>
+
+    <div class="smart-banner" id="smartBanner">
+      <strong>✨ 智能章法识别：</strong>题名「<span id="detTitle">滕王閣序</span>」、作者「<span id="detAuthor">王勃</span>」<br/>
+      <span id="detLayout">古近体诗词（首列独立题名落款） ｜ ✨ 已触发长卷扩列：自动排为 24列×14行（满幅殿试手卷）</span>
+    </div>
+
+    <div class="row-2col" id="titleAuthorRow" style="display:none; margin-top:5px;">
+      <div style="display:flex; align-items:center; gap:5px;">
+        <label class="field-label" for="titleInput" style="margin:0; white-space:nowrap;">题名：</label>
+        <input type="text" id="titleInput" value="滕王閣序" readonly onclick="handleLockedClick()" oninput="updateSmartBanner()" style="padding:4px 8px; font-size:12px;" />
+      </div>
+      <div style="display:flex; align-items:center; gap:5px;">
+        <label class="field-label" for="authorInput" style="margin:0; white-space:nowrap;">作者：</label>
+        <input type="text" id="authorInput" value="王勃" readonly onclick="handleLockedClick()" oninput="updateSmartBanner()" style="padding:4px 8px; font-size:12px;" />
+      </div>
+    </div>
+
+    <div id="adminExclusiveBox" style="display:none; margin-top:5px; padding:5px 8px; background:#fdf7eb; border:1px solid #cfa89e; border-radius:6px; font-size:11px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; white-space:nowrap;">
+        <span style="font-weight:700; color:#a8221a;">👑 管理员专属</span>
+        <div style="display:flex; align-items:center; gap:7px;">
+          <label style="display:flex; align-items:center; gap:2px; cursor:pointer; white-space:nowrap;"><input type="checkbox" id="admNoWatermark" checked onchange="if(typeof saveStudioState==='function')saveStudioState(); submitRender();" /><span>纯净无水印</span></label>
+          <label style="display:flex; align-items:center; gap:2px; cursor:pointer; white-space:nowrap;"><input type="checkbox" id="admHdLossless" checked onchange="if(typeof saveStudioState==='function')saveStudioState(); submitRender();" /><span>300DPI超清</span></label>
+          <label style="display:flex; align-items:center; gap:2px; cursor:pointer; white-space:nowrap;"><input type="checkbox" id="admAutoExpandCols" checked onchange="syncExpand24PillUI(); updateSmartBanner(); if(typeof saveStudioState==='function')saveStudioState(); submitRender();" /><span>自动扩24列</span></label>
+          <button type="button" onclick="logoutAdmin()" style="background:#5a4d3f;color:#fff;border:none;border-radius:4px;padding:1px 6px;font-size:10px;cursor:pointer;">退出</button>
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; gap:6px;">
+        <span style="white-space:nowrap; color:#5a4d3f;">自定义落款：</span>
+        <input type="text" id="colophonInput" placeholder="留空按古籍自动落款；填 NONE 则不落款" style="padding:2px 7px; font-size:11px;" />
+      </div>
+    </div>
+
+    <div class="options-grid">
+      <div>
+        <span class="opt-label">字库版本（一键对比两版神韵）：</span>
+        <div class="radio-group">
+          <div class="radio-card" id="fv_v1" onclick="setFontVersion('v1')">第一版 · 馆藏正楷</div>
+          <div class="radio-card selected" id="fv_v2" onclick="setFontVersion('v2')">第二版 · 手札行楷</div>
+        </div>
+      </div>
+      <div>
+        <span class="opt-label">字体正统选择（自动转换繁简）：</span>
+        <div class="radio-group">
+          <div class="radio-card selected" id="ed_trad" onclick="setEdition('trad')">繁体馆阁体</div>
+          <div class="radio-card" id="ed_simp" onclick="setEdition('simp')">简体馆阁体</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:8px;">
+      <span class="opt-label">宣纸册页与长卷装裱范式：</span>
+      <div class="radio-group">
+        <div class="radio-card selected" id="st_zhalan" onclick="setStyle('zhalan')">《心经》式 · 乌丝栏</div>
+        <div class="radio-card" id="st_clean" onclick="setStyle('clean')">《兰亭》式 · 无格素笺</div>
+        <div class="radio-card" id="st_expand24_pill" style="display:none;" onclick="toggleExpand24Pill()">✔ 自动横向扩列(24列)</div>
+      </div>
+    </div>
+
+    <button type="button" class="submit-btn" id="renderBtn" onclick="submitRender()">🖌️ 立即挥毫生成书法作品</button>
+  </div>
+
+  <!-- 右侧：书法作品预览与长按保存区 -->
+  <div class="panel preview-wrap">
+    <div class="panel-title" style="width:100%;">
+      <div class="title-left-wrap">
+        <span class="cinnabar-bar"></span>
+        <span id="previewTitle">作品预览（含底部故宫宋锦装裱签条与微信长按二维码印）</span>
+      </div>
+      <div class="preview-toolbar">
+        <span class="pt-btn" id="pt_v1" onclick="setFontVersion('v1'); submitRender();">第一版(正楷)</span>
+        <span class="pt-btn active" id="pt_v2" onclick="setFontVersion('v2'); submitRender();">第二版(行楷)</span>
+        <span class="pt-btn" onclick="openLightbox()">🔍 点击全屏放大镜</span>
+      </div>
+    </div>
+
+    <div class="artwork-stage">
+      <div class="artwork-frame">
+        <img id="resultImg" src="gallery/p0014_trad_zhalan_v2_24c.webp" fetchpriority="high" decoding="async" onclick="openLightbox()" title="点击开启全屏滚轮无极缩放鉴赏" alt="刘春霖小楷书法作品" />
+      </div>
+    </div>
+
+    <div class="action-bar">
+      <span class="share-tip">💡 手机微信长按图片可「保存/转发」· 点击图片开启滚轮无极缩放</span>
+      <a id="downloadLink" class="download-btn" href="gallery/p0014_trad_zhalan_v2_24c.jpg" download="刘春霖小楷_滕王閣序_第二版.jpg">⬇ 下载高清书法大图 (JPG)</a>
+    </div>
+  </div>
+</div>
+
+<!-- 底部：版本更新提醒订阅 + 经典作品馆 -->
+<div style="max-width: 1220px; margin: 12px auto 32px; padding: 0 20px;">
+  <div id="surveyAndEmailCard" style="margin-bottom: 14px; padding: 11px 16px; background: linear-gradient(180deg, #fffdf8 0%, #f9f1e1 100%); border: 1.5px solid #cfa97e; border-radius: 10px; box-shadow: 0 4px 14px rgba(42, 31, 19, 0.06);">
+    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+      <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+        <span style="font-weight: 800; font-size: 13.8px; color: #a8221a;">📧 字库升级与新特性发布邮件提醒（选填订阅）</span>
+        <span id="surveyStatusBadge" style="font-size: 11px; padding: 1px 8px; border-radius: 99px; background: #efe4d0; color: #6e5a44; font-weight: 600;">待订阅</span>
+        <span style="font-size: 11.8px; color: #544637;">当字库发布新版本、新增古籍名篇或书友共创好字晋升入库时第一时间邮件通知您</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; flex:1; justify-content:flex-end; min-width:320px;">
+        <input type="email" id="surveyEmailInput" placeholder="✉️ 输入您的邮箱地址（如 xxx@qq.com / 163.com）" style="flex:1; min-width:210px; max-width:310px; padding:6px 10px; border:1px solid #b89f7d; border-radius:5px; font-size:12.2px; background:#fff;" />
+        <button type="button" id="surveySubmitBtn" onclick="submitSurveyForm()" style="padding: 6px 14px; background: linear-gradient(135deg, #a8221a 0%, #861812 100%); color: #fff; border: 1px solid #ffd984; border-radius: 6px; font-size: 12.4px; font-weight: 700; cursor: pointer; white-space: nowrap;">📨 订阅更新提醒</button>
+        <div style="display:flex; align-items:center; gap:6px; font-size:11.5px; background:#f3ead8; padding:3px 10px; border-radius:99px; border:1px solid #cbb492;">
+          <span style="color:#4a3c2e; font-weight:700;">已订阅：<strong style="color:#a8221a;" id="subscriberTotalCount">3</strong> 人</span>
+          <span id="adminSubscriberTools" style="display:none; align-items:center; gap:6px;">
+            <a href="javascript:void(0)" onclick="window.location.href=(typeof getApiBase==='function'?getApiBase():'')+'/api/evolve/export_subscribers_csv'; return false;" style="background:#1d6f42; color:#fff; text-decoration:none; padding:2px 8px; border-radius:4px; font-weight:600;">⬇ 导出邮箱 CSV</a>
+            <button type="button" onclick="copyAllSubscriberEmails()" style="background:#2c241d; color:#ffd984; border:none; padding:2px 8px; border-radius:4px; font-size:11.2px; font-weight:600; cursor:pointer;">📋 一键复制全部邮箱群发</button>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div id="surveySuccessMsg" style="display: none; margin-top: 7px; padding: 6px 10px; background: #e6f4ea; border: 1px solid #81c995; border-radius: 5px; color: #137333; font-size: 12px; font-weight: 700; text-align: center;">✅ 订阅成功！您的提醒邮箱已妥善保存，字库升级或新特性发布时将第一时间邮件通知您。</div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-title">
+      <div class="title-left-wrap">
+        <span class="cinnabar-bar"></span>
+        <span>刘春霖 AI 小楷书房 · 经典名篇与真迹对比鉴赏馆（点击图片可放大查看高清原图）</span>
+      </div>
+      <span class="quota-pill">版权约定：个人免费，商用收费 ｜ 如需合作请联系 sdicfund@hotmail.com</span>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin-top: 8px;">
+      <div style="border: 1px solid #d5c7af; border-radius: 6px; padding: 10px; background: #fffdf8;">
+        <div style="font-weight: 600; font-size: 13.5px; margin-bottom: 6px; color: #3a322a;">1. 《长恨歌》宣纸真迹 vs AI 小楷复刻对比</div>
+        <a href="gallery/showcase_changhenge.jpg" target="_blank"><img src="gallery/showcase_changhenge_thumb.webp" loading="lazy" decoding="async" alt="长恨歌真迹对比" style="width: 100%; border-radius: 4px; display: block;" /></a>
+      </div>
+      <div style="border: 1px solid #d5c7af; border-radius: 6px; padding: 10px; background: #fffdf8;">
+        <div style="font-weight: 600; font-size: 13.5px; margin-bottom: 6px; color: #3a322a;">2. 《春江花月夜》繁简双绝 · 零训练盲测展示</div>
+        <a href="gallery/showcase_chunjiang_blindtest.jpg" target="_blank"><img src="gallery/showcase_chunjiang_blindtest_thumb.webp" loading="lazy" decoding="async" alt="春江花月夜展示" style="width: 100%; border-radius: 4px; display: block;" /></a>
+      </div>
+      <div style="border: 1px solid #d5c7af; border-radius: 6px; padding: 10px; background: #fffdf8;">
+        <div style="font-weight: 600; font-size: 13.5px; margin-bottom: 6px; color: #3a322a;">3. 《心经》乌丝栏 &《兰亭集序》无格素笺双范式</div>
+        <a href="gallery/showcase_copybook_sim.jpg" target="_blank"><img src="gallery/showcase_copybook_sim_thumb.webp" loading="lazy" decoding="async" alt="心经与兰亭集序展示" style="width: 100%; border-radius: 4px; display: block;" /></a>
+      </div>
+      <div style="border: 1px solid #d5c7af; border-radius: 6px; padding: 10px; background: #fffdf8;">
+        <div style="font-weight: 600; font-size: 13.5px; margin-bottom: 6px; color: #3a322a;">4. 微信朋友圈裂变装裱设计（朱砂印章二维码）</div>
+        <a href="gallery/showcase_qr_seal_demo.jpg" target="_blank"><img src="gallery/showcase_qr_seal_demo_thumb.webp" loading="lazy" decoding="async" alt="朱砂二维码印章设计" style="width: 100%; border-radius: 4px; display: block;" /></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 全屏博物院级无极缩放灯箱 -->
+<div class="lightbox-overlay" id="lightboxModal" onclick="handleLightboxBgClick(event)">
+  <div class="lb-topbar" onclick="event.stopPropagation()">
+    <div>🔍 <strong>博物院级超清放大镜鉴赏</strong>（支持鼠标滚轮无极缩放 · 按住左键拖拽平移 · 按 ESC 退出）</div>
+    <div class="lb-controls">
+      <button type="button" class="lb-btn" id="lb_v1" onclick="setFontVersion('v1'); submitRender();">第一版(正楷)</button>
+      <button type="button" class="lb-btn active" id="lb_v2" onclick="setFontVersion('v2'); submitRender();">第二版(行楷)</button>
+      <button type="button" class="lb-btn" onclick="zoomLightbox(0.25)">＋ 放大</button>
+      <button type="button" class="lb-btn" onclick="zoomLightbox(-0.25)">－ 缩小</button>
+      <button type="button" class="lb-btn" onclick="resetLightboxZoom()">1:1 复位</button>
+      <button type="button" class="lb-btn" style="background:#a8221a;border-color:#ffd984;" onclick="closeLightbox()">✕ 关闭 (ESC)</button>
+    </div>
+  </div>
+  <div class="lb-viewport" id="lbViewport" onclick="event.stopPropagation()">
+    <img id="lightboxImg" src="" alt="全屏放大预览" />
+  </div>
+</div>
+
+<script>
+  const DEFAULT_API_BASE = 'https://ai.top915.top/shufa-api';
+  let currentFontVersion = 'v2';
+  let currentEdition = 'trad';
+  let currentStyle = 'zhalan';
+  let currentCat = '';
+  let anthology = [];
+  let selectedPoem = null;
+  let adminKey = localStorage.getItem('liuchunlin_admin_key') || '';
+  let isAdmin = false;
+
+  const GALLERY_PREVIEW_MAP = {
+    'p0002_trad_zhalan': 'gallery/shanju_trad.jpg?v=1793333292',
+    'p0027_trad_zhalan': 'jinse_zhalan.jpg?v=1793333292',
+    'p0027_trad_clean': 'jinse.jpg?v=1793333292'
+  };
+
+  function getApiBase() {
+    return DEFAULT_API_BASE;
+  }
+
+  function handleLockedClick() {
+    if (isAdmin) return;
+    alert('请从上方检索点选诗词名篇生成书法大图！如需自由排印任意文字，可在下方免费下载完整版 TTF 字体包。商业合作请联系：sdicfund@hotmail.com');
+  }
+
+  async function verifyAndApplyAdmin(keyToTry, silent = false) {
+    if (!keyToTry) {
+      isAdmin = false;
+      applyAdminUI();
+      return false;
+    }
+    try {
+      const r = await fetch(`${getApiBase()}/api/admin/verify?key=${encodeURIComponent(keyToTry)}`);
+      if (r.ok) {
+        const d = await r.json();
+        if (d.valid) {
+          adminKey = d.session_token || keyToTry;
+          isAdmin = true;
+          localStorage.setItem('liuchunlin_admin_key', adminKey);
+          applyAdminUI();
+          return true;
+        }
+      }
+    } catch (e) {}
+    isAdmin = false;
+    localStorage.removeItem('liuchunlin_admin_key');
+    applyAdminUI();
+    if (!silent) alert('管理员密码不正确！');
+    return false;
+  }
+
+  function logoutAdmin() {
+    adminKey = '';
+    isAdmin = false;
+    localStorage.removeItem('liuchunlin_admin_key');
+    applyAdminUI();
+    refreshQuota();
+  }
+
+  function syncExpand24PillUI() {
+    const pill = document.getElementById('st_expand24_pill');
+    const cb = document.getElementById('admAutoExpandCols');
+    if (!pill) return;
+    if (isAdmin) {
+      pill.style.display = 'block';
+      const isExp = cb ? cb.checked : false;
+      pill.classList.toggle('outline-selected', isExp);
+      pill.textContent = isExp ? '✔ 自动横向扩列(24列)' : '↔ 自动横向扩列(24列)';
+    } else {
+      pill.style.display = 'none';
+    }
+  }
+
+  function toggleExpand24Pill() {
+    const cb = document.getElementById('admAutoExpandCols');
+    if (cb) {
+      cb.checked = !cb.checked;
+      syncExpand24PillUI();
+      updateSmartBanner();
+      if (typeof saveStudioState === 'function') saveStudioState();
+      submitRender();
+    }
+  }
+
+  function loadTengwanggeScrollLogo() {
+    currentFontVersion = 'v2';
+    document.getElementById('fv_v1').classList.remove('selected');
+    document.getElementById('fv_v2').classList.add('selected');
+    if (document.getElementById('pt_v1')) document.getElementById('pt_v1').classList.remove('active');
+    if (document.getElementById('pt_v2')) document.getElementById('pt_v2').classList.add('active');
+    if (document.getElementById('lb_v1')) document.getElementById('lb_v1').classList.remove('active');
+    if (document.getElementById('lb_v2')) document.getElementById('lb_v2').classList.add('active');
+    const cb = document.getElementById('admAutoExpandCols');
+    if (cb && isAdmin) {
+      cb.checked = true;
+      syncExpand24PillUI();
+    }
+    selectPoemById('p0014');
+    if (!isAdmin) submitRender();
+  }
+
+  function quickSelectFeatured(pid, preferExpand) {
+    document.querySelectorAll('.feat-chip').forEach(el => el.classList.remove('active'));
+    const chip = document.getElementById('feat_' + pid);
+    if (chip) chip.classList.add('active');
+    const cb = document.getElementById('admAutoExpandCols');
+    if (cb && isAdmin && preferExpand) {
+      cb.checked = true;
+      syncExpand24PillUI();
+    }
+    selectPoemById(pid);
+    submitRender();
+  }
+
+  function applyAdminUI() {
+    const poemEl = document.getElementById('poemInput');
+    const titleEl = document.getElementById('titleInput');
+    const authorEl = document.getElementById('authorInput');
+    const taRow = document.getElementById('titleAuthorRow');
+    const admBox = document.getElementById('adminExclusiveBox');
+    const badge = document.getElementById('quotaBadge');
+    const labelEl = document.getElementById('poemInputLabel');
+    const noticeEl = document.getElementById('complianceNotice');
+    const prevTitle = document.getElementById('previewTitle');
+    const topRevBtn = document.getElementById('topReviewWorkbenchBtn');
+
+    if (isAdmin) {
+      poemEl.removeAttribute('readonly');
+      titleEl.removeAttribute('readonly');
+      authorEl.removeAttribute('readonly');
+      poemEl.style.background = '#ffffff';
+      poemEl.style.borderColor = '#a8221a';
+      titleEl.style.background = '#ffffff';
+      authorEl.style.background = '#ffffff';
+      if (taRow) taRow.style.display = 'grid';
+      admBox.style.display = 'block';
+      badge.style.display = 'inline-block';
+      badge.textContent = '👑 管理员：无限次 · 超清无水印';
+      badge.style.background = 'linear-gradient(135deg, #a8221a, #871812)';
+      badge.style.color = '#fff';
+      badge.style.borderColor = '#a8221a';
+      labelEl.innerHTML = '<strong style="color:#a8221a;">✍️ 书法正文（自由输入任意文字，或点选上方古籍）：</strong>';
+      if (noticeEl) noticeEl.style.display = 'none';
+      if (prevTitle) prevTitle.textContent = '👑 管理员作品预览（纯净无水印 · 无广告 · 300DPI 超清原画）';
+      if (topRevBtn && getApiBase() === '') topRevBtn.style.display = 'inline-flex';
+    } else {
+      poemEl.setAttribute('readonly', 'readonly');
+      titleEl.setAttribute('readonly', 'readonly');
+      authorEl.setAttribute('readonly', 'readonly');
+      poemEl.style.background = '';
+      poemEl.style.borderColor = '';
+      titleEl.style.background = '';
+      authorEl.style.background = '';
+      if (taRow) taRow.style.display = 'none';
+      admBox.style.display = 'none';
+      badge.style.display = 'inline-block';
+      badge.style.background = '';
+      badge.style.color = '';
+      labelEl.textContent = '当前选中诗词正文（点选上方诗词后，点击下方「立即挥毫生成书法作品」按钮）：';
+      if (noticeEl) noticeEl.style.display = 'block';
+      if (prevTitle) prevTitle.textContent = '作品预览（含底部故宫宋锦装裱签条与微信长按二维码印）';
+      if (topRevBtn) topRevBtn.style.display = 'none';
+    }
+    syncExpand24PillUI();
+    updateSmartBanner();
+  }
+
+  let _renderSeq = 0;
+  const _clientBlobCache = new Map([
+    ['pub|p0014|v2|trad|zhalan', 'gallery/p0014_trad_zhalan_v2_24c.webp'],
+    ['pub|p0014|v1|trad|zhalan', 'gallery/p0014_trad_zhalan_v1_24c.jpg'],
+    ['pub|p0014|v2|simp|zhalan', 'gallery/p0014_simp_zhalan_v2_24c.jpg'],
+    ['pub|p0014|v1|simp|zhalan', 'gallery/p0014_simp_zhalan_v1_24c.jpg'],
+    ['pub|p0014|v2|trad|clean', 'gallery/p0014_trad_clean_v2_24c.jpg'],
+    ['pub|p0014|v1|trad|clean', 'gallery/p0014_trad_clean_v1_24c.jpg'],
+    ['pub|p0014|v2|simp|clean', 'gallery/p0014_simp_clean_v2_24c.jpg'],
+    ['pub|p0014|v1|simp|clean', 'gallery/p0014_simp_clean_v1_24c.jpg'],
+    ['pub|p0021|v1|trad|zhalan', 'gallery/jiangjinjiu_trad.jpg?v=1793333292']
+  ]);
+
+  async function loadAnthology() {
+    try {
+      const r = await fetch('anthology.json');
+      anthology = await r.json();
+      if (anthology.length > 0 && !selectedPoem) {
+        selectedPoem = anthology.find(x => x.id === 'p0014') || anthology[0];
+        applySelectedPoemToFields();
+      }
+      renderPoemList();
+    } catch (e) {
+      console.error('Failed to load anthology.json', e);
+    }
+  }
+
+  function setCat(cat, el) {
+    currentCat = cat;
+    document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+    if (el) el.classList.add('active');
+    renderPoemList();
+  }
+
+  function countCleanChars(str) {
+    return Array.from(str || '').filter(c => !/\s/.test(c) && !'，。、；：？！“”‘’（）《》「」『』—…,.!?;:'.includes(c)).length;
+  }
+
+  function renderPoemList() {
+    const searchEl = document.getElementById('poemSearchInput');
+    const rawQ = (searchEl.value || '').trim();
+    if (/^\d{6}$/.test(rawQ)) {
+      verifyAndApplyAdmin(rawQ, true).then(ok => {
+        if (ok) {
+          searchEl.value = '';
+          renderPoemList();
+        }
+      });
+    }
+    const q = (searchEl.value || '').trim().toLowerCase();
+    const box = document.getElementById('poemListContainer');
+    const matches = anthology.filter(item => {
+      if (currentCat && item.cat !== currentCat) return false;
+      if (!q) return true;
+      return item.t_simp.toLowerCase().includes(q) ||
+             item.t_trad.toLowerCase().includes(q) ||
+             item.a_simp.toLowerCase().includes(q) ||
+             item.a_trad.toLowerCase().includes(q) ||
+             item.c_simp.toLowerCase().includes(q) ||
+             item.c_trad.toLowerCase().includes(q);
+    }).slice(0, 60);
+
+    if (!matches.length) {
+      const safeQ = q.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      box.innerHTML = `<div style="padding:10px;color:#a8221a;font-size:12.5px;">未在古籍库中搜到「${safeQ}」—— 如需合作，请联系邮箱 <strong>sdicfund@hotmail.com</strong></div>`;
+      return;
+    }
+
+    box.innerHTML = matches.map(item => {
+      const title = currentEdition === 'trad' ? item.t_trad : item.t_simp;
+      const author = currentEdition === 'trad' ? item.a_trad : item.a_simp;
+      const preview = currentEdition === 'trad' ? item.c_trad : item.c_simp;
+      const isSel = selectedPoem && selectedPoem.id === item.id;
+      const nChars = countCleanChars(preview);
+      const isLong = (isAdmin && nChars > 126) || item.id === 'p0014';
+      return `
+        <div class="poem-item ${isSel ? 'selected' : ''}" onclick="selectPoemById('${item.id}')">
+          <span class="poem-item-title">《${title}》· ${author}</span>
+          <span class="poem-item-preview">${preview.slice(0, 14)}… <em class="p-len ${isLong ? 'scroll' : ''}">${nChars}字${isLong ? '·长卷' : ''}</em></span>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function selectPoemById(pid) {
+    const item = anthology.find(x => x.id === pid);
+    if (!item) return;
+    selectedPoem = item;
+    document.querySelectorAll('.feat-chip').forEach(el => {
+      el.classList.toggle('active', el.id === 'feat_' + pid);
+    });
+    applySelectedPoemToFields();
+    renderPoemList();
+    if (!isAdmin && _clientBlobCache.has(`pub|${pid}|${currentFontVersion}|${currentEdition}|${currentStyle}`)) {
+      submitRender();
+    }
+  }
+
+  function applySelectedPoemToFields() {
+    if (!selectedPoem) return;
+    const isTrad = currentEdition === 'trad';
+    const t = isTrad ? selectedPoem.t_trad : selectedPoem.t_simp;
+    const a = isTrad ? selectedPoem.a_trad : selectedPoem.a_simp;
+    const c = isTrad ? selectedPoem.c_trad : selectedPoem.c_simp;
+    const isSutraOrInline = (selectedPoem.cat === '经文国学' || selectedPoem.id === 'p0004' || c.startsWith(t));
+    if (isSutraOrInline) {
+      document.getElementById('titleInput').value = '';
+      document.getElementById('authorInput').value = '';
+      document.getElementById('poemInput').value = c;
+    } else {
+      document.getElementById('titleInput').value = t;
+      document.getElementById('authorInput').value = a;
+      document.getElementById('poemInput').value = `《${t}》\n${a}\n${c}`;
+    }
+    updateSmartBanner();
+    if (typeof saveStudioState === 'function') saveStudioState();
+  }
+
+  function smartParseInput(rawText, expTitle, expAuthor) {
+    let title = (expTitle || '').trim().replace(/^[《「『]|[》」』]$/g, '');
+    let author = (expAuthor || '').trim();
+    let lines = rawText.trim().split(/\r?\n/).map(s => s.trim()).filter(Boolean);
+    if (!lines.length) return { title, author, body: '', rows: 14, genre: '', cleanCount: 0, maxPageChars: 126 };
+
+    const mBook = lines[0].match(/^[《「『]([^》」』]{1,14})[》」』]\s*(.*)$/);
+    if (mBook) {
+      if (!title) title = mBook[1].trim();
+      lines = lines.slice(1);
+      if (lines.length >= 2 && lines[0].length <= 8 && !/[，。！？；：,.!?]/.test(lines[0])) {
+        if (!author) author = lines[0];
+        lines = lines.slice(1);
+      }
+    }
+
+    const body = lines.join('');
+    const clauses = body.split(/[，。！？；：、,.!?;:\n]+/).map(s => s.replace(/\s+/g, '')).filter(Boolean);
+    let rows = title ? 14 : (currentStyle === 'zhalan' ? 15 : 13);
+    let genre = title ? '古近体诗词（首列独立题名落款）' : '散文/经文（顶格连写 + 篇尾落款钤印）';
+    if (clauses.length >= 4) {
+      const lens = clauses.slice(0, 8).map(c => c.length);
+      const c7 = lens.filter(l => l === 7).length;
+      const c5 = lens.filter(l => l === 5).length;
+      if (c7 >= lens.length * 0.75) {
+        rows = 14;
+        genre = '七言诗 → 10列×14行（首列独立题款，每列一联14字）';
+      } else if (c5 >= lens.length * 0.75) {
+        rows = 15;
+        genre = '五言诗 → 10列×15行（首列独立题款，每列三句15字）';
+      }
+    }
+    const cleanChars = Array.from(body).filter(c => !/\s/.test(c) && !'，。、；：？！“”‘’（）《》「」『』—…'.includes(c));
+    const availCols = 10 - (title ? 1 : 0);
+    const reservedTail = title ? 0 : 6;
+    const maxPageChars = (availCols - 1) * rows + Math.max(2, rows - reservedTail);
+    const expandCb = document.getElementById('admAutoExpandCols');
+    const isExpandOn = (isAdmin && expandCb && expandCb.checked) || (selectedPoem && selectedPoem.id === 'p0014');
+
+    let pageHint = '';
+    if (cleanChars.length > maxPageChars) {
+      if (isExpandOn) {
+        const neededCols = Math.min(24, (title ? 1 : 0) + Math.ceil((cleanChars.length + reservedTail) / rows));
+        pageHint = ` ｜ ✨ 已触发长卷扩列：自动排为 ${neededCols}列×${rows}行（满幅殿试手卷）`;
+      } else if (isAdmin) {
+        pageHint = ` ｜ ⚠️ 正文 ${cleanChars.length} 字超出10列上限（${maxPageChars} 字），勾选「自动扩24列」可排24列长卷`;
+      } else {
+        pageHint = ` ｜ 单页10列方页容量上限 ${maxPageChars} 字（将自动排版首頁）`;
+      }
+    } else {
+      pageHint = ` ｜ 单页10列容量：${cleanChars.length} / ${maxPageChars} 字`;
+    }
+    return { title, author, body, rows, genre: genre + pageHint, cleanCount: cleanChars.length, maxPageChars };
+  }
+
+  function updateSmartBanner() {
+    const raw = document.getElementById('poemInput').value;
+    const tIn = document.getElementById('titleInput').value;
+    const aIn = document.getElementById('authorInput').value;
+    const info = smartParseInput(raw, tIn, aIn);
+    document.getElementById('detTitle').textContent = info.title || '（无独立题名·顶格起写）';
+    document.getElementById('detAuthor').textContent = info.author || (currentEdition === 'trad' ? '春霖敬書' : '刘春霖书');
+    document.getElementById('detLayout').textContent = info.genre;
+
+    const pill = document.getElementById('charStatusPill');
+    if (pill) {
+      const expandCb = document.getElementById('admAutoExpandCols');
+      const isExpandOn = (isAdmin && expandCb && expandCb.checked) || (selectedPoem && selectedPoem.id === 'p0014');
+      if (info.cleanCount > info.maxPageChars && isExpandOn) {
+        const neededCols = Math.min(24, (info.title ? 1 : 0) + Math.ceil(info.cleanCount / info.rows));
+        pill.innerHTML = `当前 <strong>${info.cleanCount}</strong> 字 · <strong>${neededCols}列长卷</strong>`;
+      } else {
+        pill.innerHTML = `当前 <strong>${info.cleanCount}</strong> 字 · <strong>10列方页</strong>`;
+      }
+    }
+    if (typeof updateCurrentPoemCharChips === 'function') updateCurrentPoemCharChips();
+  }
+
+  function setFontVersion(ver) {
+    currentFontVersion = ver;
+    document.getElementById('fv_v1').classList.toggle('selected', ver === 'v1');
+    document.getElementById('fv_v2').classList.toggle('selected', ver === 'v2');
+    if (document.getElementById('pt_v1')) document.getElementById('pt_v1').classList.toggle('active', ver === 'v1');
+    if (document.getElementById('pt_v2')) document.getElementById('pt_v2').classList.toggle('active', ver === 'v2');
+    if (document.getElementById('lb_v1')) document.getElementById('lb_v1').classList.toggle('active', ver === 'v1');
+    if (document.getElementById('lb_v2')) document.getElementById('lb_v2').classList.toggle('active', ver === 'v2');
+    if (typeof saveStudioState === 'function') saveStudioState();
+    submitRender();
+  }
+
+  function setEdition(ed) {
+    currentEdition = ed;
+    document.getElementById('ed_trad').classList.toggle('selected', ed === 'trad');
+    document.getElementById('ed_simp').classList.toggle('selected', ed === 'simp');
+    applySelectedPoemToFields();
+    renderPoemList();
+    submitRender();
+  }
+
+  function setStyle(st) {
+    currentStyle = st;
+    document.getElementById('st_zhalan').classList.toggle('selected', st === 'zhalan');
+    document.getElementById('st_clean').classList.toggle('selected', st === 'clean');
+    updateSmartBanner();
+    submitRender();
+  }
+
+  /* 全屏博物院级放大镜逻辑 */
+  let _lbScale = 1;
+  let _lbX = 0;
+  let _lbY = 0;
+  let _lbDragging = false;
+  let _lbStartX = 0;
+  let _lbStartY = 0;
+
+  function applyLightboxTransform() {
+    const img = document.getElementById('lightboxImg');
+    if (img) {
+      img.style.transform = `translate(${_lbX}px, ${_lbY}px) scale(${_lbScale})`;
+    }
+  }
+
+  function openLightbox() {
+    const src = document.getElementById('resultImg').src;
+    const lbImg = document.getElementById('lightboxImg');
+    lbImg.src = src;
+    resetLightboxZoom();
+    document.getElementById('lightboxModal').classList.add('open');
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightboxModal').classList.remove('open');
+  }
+
+  function handleLightboxBgClick(e) {
+    if (e.target.id === 'lightboxModal' || e.target.id === 'lbViewport') {
+      closeLightbox();
+    }
+  }
+
+  function zoomLightbox(delta) {
+    _lbScale = Math.min(4.5, Math.max(0.5, _lbScale + delta));
+    applyLightboxTransform();
+  }
+
+  function resetLightboxZoom() {
+    _lbScale = 1;
+    _lbX = 0;
+    _lbY = 0;
+    applyLightboxTransform();
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const vp = document.getElementById('lbViewport');
+    if (vp) {
+      vp.addEventListener('wheel', (e) => {
+        e.preventDefault();
+        const delta = e.deltaY < 0 ? 0.18 : -0.18;
+        zoomLightbox(delta);
+      }, { passive: false });
+      vp.addEventListener('mousedown', (e) => {
+        if (e.button !== 0) return;
+        _lbDragging = true;
+        _lbStartX = e.clientX - _lbX;
+        _lbStartY = e.clientY - _lbY;
+      });
+      window.addEventListener('mousemove', (e) => {
+        if (!_lbDragging) return;
+        _lbX = e.clientX - _lbStartX;
+        _lbY = e.clientY - _lbStartY;
+        applyLightboxTransform();
+      });
+      window.addEventListener('mouseup', () => { _lbDragging = false; });
+    }
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeLightbox();
+    });
+  });
+
+  async function refreshQuota() {
+    if (isAdmin) return;
+    const apiBase = getApiBase();
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const ref = encodeURIComponent(document.referrer || '');
+      const src = encodeURIComponent(params.get('src') || '');
+      const r = await fetch(`${apiBase}/api/quota?ref=${ref}&src=${src}`);
+      if (r.ok) {
+        const d = await r.json();
+        const lim = d.hourly_limit || 10;
+        if (!isAdmin) {
+          document.getElementById('quotaBadge').textContent = `本小时剩余：${d.remaining} / ${lim} 篇`;
+        }
+      }
+    } catch (e) {}
+  }
+
+  async function submitRender() {
+    const btn = document.getElementById('renderBtn');
+    const apiBase = getApiBase();
+    if (!isAdmin) {
+      if (!selectedPoem) return;
+      applySelectedPoemToFields();
+    }
+    const raw = document.getElementById('poemInput').value.trim();
+    if (!raw) {
+      alert('请先在上方点选一首诗词！');
+      return;
+    }
+
+    syncExpand24PillUI();
+    updateSmartBanner();
+
+    const noWm = isAdmin && document.getElementById('admNoWatermark') ? document.getElementById('admNoWatermark').checked : false;
+    const hdPng = isAdmin && document.getElementById('admHdLossless') ? document.getElementById('admHdLossless').checked : false;
+    const expandCols = isAdmin && document.getElementById('admAutoExpandCols') ? document.getElementById('admAutoExpandCols').checked : false;
+    const colophonVal = isAdmin && document.getElementById('colophonInput') ? document.getElementById('colophonInput').value.trim() : '';
+    const titleVal = document.getElementById('titleInput').value.trim();
+    const authorVal = document.getElementById('authorInput').value.trim();
+    const tClean = (titleVal || '书法作品').replace(/[\\/:*?"<>|]/g, '');
+    const verLabel = currentFontVersion === 'v1' ? '第一版' : '第二版';
+
+    const activeVipCode = localStorage.getItem('liuchunlin_vip_code') || '';
+    const isLongSelected = Boolean(selectedPoem && (selectedPoem.id === 'p0014' || (activeVipCode && countCleanChars(currentEdition === 'trad' ? selectedPoem.c_trad : selectedPoem.c_simp) > 126)));
+    const layoutModeVal = isAdmin ? (expandCols ? 'EXPAND24' : 'STD10') : (isLongSelected ? 'EXPAND24' : 'STD10');
+    const hdLosslessVal = Boolean(isAdmin ? hdPng : activeVipCode);
+
+    const cacheKey = (!isAdmin && !activeVipCode && selectedPoem)
+      ? `pub|${selectedPoem.id}|${currentFontVersion}|${currentEdition}|${currentStyle}`
+      : `adm|${raw}|${titleVal}|${authorVal}|${colophonVal}|${currentFontVersion}|${currentEdition}|${currentStyle}|${noWm?1:0}|${hdLosslessVal?1:0}|${layoutModeVal}|${activeVipCode}`;
+
+    if (_clientBlobCache.has(cacheKey)) {
+      const cachedUrl = _clientBlobCache.get(cacheKey);
+      window._activeImgRenderSpec = {
+        text: raw,
+        title: titleVal,
+        author: authorVal,
+        colophon: colophonVal,
+        edition: currentEdition,
+        style: currentStyle,
+        font_version: currentFontVersion,
+        poem_id: selectedPoem ? selectedPoem.id : '',
+        vip_code: activeVipCode,
+        layout_mode: layoutModeVal,
+        no_watermark: noWm,
+        hd_lossless: hdLosslessVal
+      };
+      const _cImg = document.getElementById('resultImg');
+      _cImg.src = cachedUrl;
+      try { if (_cImg.decode) await _cImg.decode(); } catch (e) {}
+      if (typeof fetchCurrentCopybookHitmap === 'function') await fetchCurrentCopybookHitmap(true);
+      if (document.getElementById('lightboxModal').classList.contains('open')) {
+        document.getElementById('lightboxImg').src = cachedUrl;
+      }
+      const dl = document.getElementById('downloadLink');
+      dl.href = cachedUrl;
+      dl.download = (isAdmin && noWm)
+        ? `刘春霖小楷_${tClean}_${verLabel}_超清无水印.jpg`
+        : `刘春霖小楷_${tClean}_${verLabel}.jpg`;
+      dl.textContent = (isAdmin && noWm) ? '⬇ 下载 300DPI 超清无水印原图 (JPG)' : '⬇ 下载高清书法大图 (JPG)';
+      return;
+    }
+
+    const mySeq = ++_renderSeq;
+    const prevTitle = document.getElementById('previewTitle');
+    const origTitleText = isAdmin
+      ? '👑 管理员作品预览（纯净无水印 · 无广告 · 300DPI 超清原画）'
+      : '作品预览（含底部故宫宋锦装裱签条与微信长按二维码印）';
+    if (prevTitle) prevTitle.textContent = `⏳ 正在研墨挥毫：《${tClean}》（${verLabel} · ${currentEdition === 'trad' ? '繁体' : '简体'}）...`;
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = '⏳ 正在研墨挥毫排版中（约 1~2 秒）...';
+    }
+
+    try {
+      const payload = {
+        text: raw,
+        title: titleVal,
+        author: authorVal,
+        colophon: colophonVal,
+        edition: currentEdition,
+        style: currentStyle,
+        font_version: currentFontVersion,
+        poem_id: selectedPoem ? selectedPoem.id : '',
+        vip_code: activeVipCode,
+        layout_mode: layoutModeVal,
+        admin_key: isAdmin ? adminKey : '',
+        no_watermark: noWm,
+        hd_lossless: hdLosslessVal
+      };
+      const resp = await fetch(`${apiBase}/api/render`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (mySeq !== _renderSeq) return;
+      if (!resp.ok) {
+        if (prevTitle) prevTitle.textContent = origTitleText;
+        let errMsg = '生成失败，请稍后重试';
+        try {
+          const errData = await resp.json();
+          if (errData && errData.detail) errMsg = errData.detail;
+        } catch (e) {}
+        alert(errMsg);
+        return;
+      }
+      const remHdr = resp.headers.get('X-Quota-Remaining');
+      if (!isAdmin && remHdr !== null) {
+        document.getElementById('quotaBadge').textContent = `本小时剩余：${remHdr} / 10 篇`;
+      }
+      const imgFmt = resp.headers.get('X-Image-Format') || 'jpg';
+      const blob = await resp.blob();
+      if (mySeq !== _renderSeq) return;
+      const objUrl = URL.createObjectURL(blob);
+      _clientBlobCache.set(cacheKey, objUrl);
+      window._activeImgRenderSpec = {
+        text: raw,
+        title: titleVal,
+        author: authorVal,
+        colophon: colophonVal,
+        edition: currentEdition,
+        style: currentStyle,
+        font_version: currentFontVersion,
+        poem_id: selectedPoem ? selectedPoem.id : '',
+        vip_code: activeVipCode,
+        layout_mode: layoutModeVal,
+        no_watermark: noWm,
+        hd_lossless: hdLosslessVal
+      };
+      const _oImg = document.getElementById('resultImg');
+      _oImg.src = objUrl;
+      try { if (_oImg.decode) await _oImg.decode(); } catch (e) {}
+      if (typeof fetchCurrentCopybookHitmap === 'function') await fetchCurrentCopybookHitmap(true);
+      if (document.getElementById('lightboxModal').classList.contains('open')) {
+        document.getElementById('lightboxImg').src = objUrl;
+      }
+      const dl = document.getElementById('downloadLink');
+      dl.href = objUrl;
+      if (isAdmin && noWm) {
+        dl.download = `刘春霖小楷_${tClean}_${verLabel}_超清无水印.${imgFmt}`;
+        dl.textContent = '⬇ 下载 300DPI 超清无水印原图 (JPG)';
+      } else {
+        dl.download = `刘春霖小楷_${tClean}_${verLabel}.${imgFmt}`;
+        dl.textContent = '⬇ 下载高清书法大图 (JPG)';
+      }
+      if (prevTitle) prevTitle.textContent = origTitleText;
+    } catch (err) {
+      if (mySeq === _renderSeq && prevTitle) prevTitle.textContent = origTitleText;
+      alert('网络连接失败，请稍后重试');
+    } finally {
+      if (btn) {
+        btn.disabled = false;
+        btn.textContent = '🖌️ 立即挥毫生成书法作品';
+      }
+    }
+  }
+
+  let surveyState = { ver: '', ttf: '', submitted: false };
+  try {
+    const savedSv = JSON.parse(localStorage.getItem('liuchunlin_survey_state') || 'null');
+    if (savedSv && typeof savedSv === 'object') {
+      surveyState.ver = savedSv.ver || '';
+      surveyState.ttf = savedSv.ttf || '';
+      surveyState.submitted = Boolean(savedSv.submitted);
+    }
+  } catch (e) {}
+
+  function applySurveyUI() {
+    const badge = document.getElementById('surveyStatusBadge');
+    const subBtn = document.getElementById('surveySubmitBtn');
+    const okMsg = document.getElementById('surveySuccessMsg');
+    const savedEm = localStorage.getItem('liuchunlin_saved_email') || '';
+    if (savedEm && document.getElementById('surveyEmailInput') && !document.getElementById('surveyEmailInput').value) {
+      document.getElementById('surveyEmailInput').value = savedEm;
+    }
+    if (surveyState.submitted || savedEm) {
+      if (badge) {
+        badge.textContent = '✅ 已订阅';
+        badge.style.background = '#e6f4ea';
+        badge.style.color = '#137333';
+      }
+      if (subBtn) {
+        subBtn.textContent = '✅ 已订阅提醒（可随时更新邮箱）';
+        subBtn.style.background = '#2e5c38';
+      }
+      if (okMsg && surveyState.submitted) okMsg.style.display = 'block';
+    } else {
+      if (badge) {
+        badge.textContent = '待订阅';
+        badge.style.background = '#efe4d0';
+        badge.style.color = '#6e5a44';
+      }
+      if (subBtn) {
+        subBtn.textContent = '📨 订阅更新提醒';
+        subBtn.style.background = 'linear-gradient(135deg, #a8221a 0%, #861812 100%)';
+        subBtn.style.color = '#fff';
+      }
+      if (okMsg) okMsg.style.display = 'none';
+    }
+  }
+
+  function selectSurveyOption(field, val) {
+    if (field === 'ver') surveyState.ver = val;
+    if (field === 'ttf') surveyState.ttf = val;
+    surveyState.submitted = false;
+    try {
+      localStorage.setItem('liuchunlin_survey_state', JSON.stringify(surveyState));
+    } catch (e) {}
+    applySurveyUI();
+  }
+
+  async function submitSurveyForm() {
+    const emailVal = (document.getElementById('surveyEmailInput') ? document.getElementById('surveyEmailInput').value : '').trim();
+    if (!emailVal || !emailVal.includes('@')) {
+      alert('请输入有效的邮箱地址后再点击「订阅更新提醒」！');
+      return;
+    }
+    const subBtn = document.getElementById('surveySubmitBtn');
+    if (subBtn) {
+      subBtn.disabled = true;
+      subBtn.textContent = '⏳ 正在提交订阅...';
+    }
+    try {
+      const resp = await fetch(`${getApiBase()}/api/survey`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          preferred_version: surveyState.ver || 'both',
+          open_ttf_advice: surveyState.ttf || 'both_open',
+          email: emailVal,
+          voter_token: (typeof getVoterToken === 'function' ? getVoterToken() : '')
+        })
+      });
+      if (resp.ok) {
+        surveyState.submitted = true;
+        try {
+          localStorage.setItem('liuchunlin_saved_email', emailVal);
+          localStorage.setItem('liuchunlin_survey_state', JSON.stringify(surveyState));
+        } catch (e) {}
+        applySurveyUI();
+        if (typeof refreshSubscriberCount === 'function') refreshSubscriberCount();
+        if (typeof loadArenaDashboard === 'function') loadArenaDashboard();
+      } else {
+        alert('订阅提交失败，请稍后重试！');
+      }
+    } catch (e) {
+      alert('网络异常，订阅提交失败，请稍后重试！');
+    } finally {
+      if (subBtn) subBtn.disabled = false;
+    }
+  }
+
+  window.addEventListener('DOMContentLoaded', async () => {
+    applySurveyUI();
+    await loadAnthology();
+    const params = new URLSearchParams(window.location.search);
+    const urlAdmin = params.get('admin') || '';
+    if (urlAdmin) {
+      await verifyAndApplyAdmin(urlAdmin.trim(), true);
+      if (window.history && window.history.replaceState) {
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+    } else if (adminKey) {
+      await verifyAndApplyAdmin(adminKey, true);
+    }
+    refreshQuota();
+    if (getApiBase() !== '') {
+      const s = document.createElement('script');
+      s.src = `${getApiBase()}/api/evolve/studio_bundle.js`;
+      s.defer = true;
+      document.head.appendChild(s);
+    }
+  });
+</script>
+</body>
+</html>

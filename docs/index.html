@@ -835,12 +835,12 @@
         <span id="previewTitle">作品预览（含底部故宫宋锦装裱签条与微信长按二维码印）</span>
       </div>
       <div class="preview-toolbar">
-        <span class="pt-btn active" id="pt_v2" onclick="setFontVersion('v2'); submitRender();">✨ 原典精修</span>
-        <span class="pt-btn" id="pt_std" onclick="setFontVersion('std'); submitRender();">⚖️ 精修标准</span>
-        <span class="pt-btn" id="pt_bold" onclick="setFontVersion('bold'); submitRender();">🖋️ 浓墨高清</span>
-        <span class="pt-btn" id="pt_light" onclick="setFontVersion('light'); submitRender();">🎋 纤秀清朗</span>
-        <span class="pt-btn" id="pt_antique" onclick="setFontVersion('antique'); submitRender();">📜 手写原拓</span>
-        <span class="pt-btn" id="pt_v1" onclick="setFontVersion('v1'); submitRender();">🏛️ 第一版</span>
+        <span class="pt-btn active" id="pt_v2" onclick="setFontVersion('v2')">✨ 原典精修</span>
+        <span class="pt-btn" id="pt_std" onclick="setFontVersion('std')">⚖️ 精修标准</span>
+        <span class="pt-btn" id="pt_bold" onclick="setFontVersion('bold')">🖋️ 浓墨高清</span>
+        <span class="pt-btn" id="pt_light" onclick="setFontVersion('light')">🎋 纤秀清朗</span>
+        <span class="pt-btn" id="pt_antique" onclick="setFontVersion('antique')">📜 手写原拓</span>
+        <span class="pt-btn" id="pt_v1" onclick="setFontVersion('v1')">🏛️ 第一版</span>
         <span class="pt-btn" onclick="openLightbox()">🔍 点击全屏放大镜</span>
       </div>
     </div>
@@ -1301,12 +1301,16 @@
 
   function setFontVersion(ver) {
     currentFontVersion = ver;
+    const isWpLbOpen = (window._lightboxMode === 'wallpaper') && Boolean(document.getElementById('lightboxModal') && document.getElementById('lightboxModal').classList.contains('open'));
     ['v1', 'v2', 'std', 'bold', 'light', 'antique'].forEach(k => {
       if (document.getElementById('fv_' + k)) document.getElementById('fv_' + k).classList.toggle('selected', ver === k);
       if (document.getElementById('pt_' + k)) document.getElementById('pt_' + k).classList.toggle('active', ver === k);
-      if (window._lightboxMode !== 'wallpaper' && document.getElementById('lb_' + k)) document.getElementById('lb_' + k).classList.toggle('active', ver === k);
+      if (!isWpLbOpen && document.getElementById('lb_' + k)) document.getElementById('lb_' + k).classList.toggle('active', ver === k);
     });
     if (typeof saveStudioState === 'function') saveStudioState();
+    if (!isWpLbOpen && ver !== 'v1' && typeof setWallpaperFontVersion === 'function') {
+      setWallpaperFontVersion(ver);
+    }
     submitRender();
   }
 
@@ -1367,6 +1371,7 @@
   }
 
   function closeLightbox() {
+    window._lightboxMode = 'copybook';
     document.getElementById('lightboxModal').classList.remove('open');
   }
 
@@ -1456,7 +1461,8 @@
     const titleVal = document.getElementById('titleInput').value.trim();
     const authorVal = document.getElementById('authorInput').value.trim();
     const tClean = (titleVal || '书法作品').replace(/[\\/:*?"<>|]/g, '');
-    const verLabel = currentFontVersion === 'v1' ? '第一版' : '第二版';
+    const _VER_LABELS = { v2: '原典精修', std: '精修标准', bold: '浓墨高清', light: '纤秀清朗', antique: '手写原拓', v1: '第一版' };
+    const verLabel = _VER_LABELS[currentFontVersion] || '原典精修';
 
     const activeVipCode = localStorage.getItem('liuchunlin_vip_code') || '';
     const isLongSelected = Boolean(selectedPoem && (selectedPoem.id === 'p0014' || (activeVipCode && countCleanChars(currentEdition === 'trad' ? selectedPoem.c_trad : selectedPoem.c_simp) > 126)));

@@ -793,10 +793,11 @@
 
     <div class="options-grid">
       <div>
-        <span class="opt-label">字库版本（一键对比两版神韵）：</span>
-        <div class="radio-group">
-          <div class="radio-card" id="fv_v1" onclick="setFontVersion('v1')">第一版 · 馆藏正楷</div>
-          <div class="radio-card selected" id="fv_v2" onclick="setFontVersion('v2')">第二版 · 手札行楷</div>
+        <span class="opt-label">字库版本（一键切换对比三版神韵）：</span>
+        <div class="radio-group" style="grid-template-columns: repeat(3, 1fr);">
+          <div class="radio-card selected" id="fv_v2" onclick="setFontVersion('v2')">✨ 原典精修</div>
+          <div class="radio-card" id="fv_bold" onclick="setFontVersion('bold')">🖋️ 浓墨高清</div>
+          <div class="radio-card" id="fv_v1" onclick="setFontVersion('v1')">📜 第一版</div>
         </div>
       </div>
       <div>
@@ -828,8 +829,9 @@
         <span id="previewTitle">作品预览（含底部故宫宋锦装裱签条与微信长按二维码印）</span>
       </div>
       <div class="preview-toolbar">
-        <span class="pt-btn" id="pt_v1" onclick="setFontVersion('v1'); submitRender();">第一版(正楷)</span>
-        <span class="pt-btn active" id="pt_v2" onclick="setFontVersion('v2'); submitRender();">第二版(行楷)</span>
+        <span class="pt-btn active" id="pt_v2" onclick="setFontVersion('v2'); submitRender();">✨ 原典精修</span>
+        <span class="pt-btn" id="pt_bold" onclick="setFontVersion('bold'); submitRender();">🖋️ 浓墨高清</span>
+        <span class="pt-btn" id="pt_v1" onclick="setFontVersion('v1'); submitRender();">📜 第一版</span>
         <span class="pt-btn" onclick="openLightbox()">🔍 点击全屏放大镜</span>
       </div>
     </div>
@@ -905,8 +907,9 @@
   <div class="lb-topbar" onclick="event.stopPropagation()">
     <div>🔍 <strong>博物院级超清放大镜鉴赏</strong>（支持鼠标滚轮无极缩放 · 按住左键拖拽平移 · 按 ESC 退出）</div>
     <div class="lb-controls">
-      <button type="button" class="lb-btn" id="lb_v1" onclick="setFontVersion('v1'); submitRender();">第一版(正楷)</button>
-      <button type="button" class="lb-btn active" id="lb_v2" onclick="setFontVersion('v2'); submitRender();">第二版(行楷)</button>
+      <button type="button" class="lb-btn active" id="lb_v2" onclick="setFontVersion('v2'); submitRender();">✨ 原典精修版</button>
+      <button type="button" class="lb-btn" id="lb_bold" onclick="setFontVersion('bold'); submitRender();">🖋️ 浓墨高清版</button>
+      <button type="button" class="lb-btn" id="lb_v1" onclick="setFontVersion('v1'); submitRender();">📜 第一版</button>
       <button type="button" class="lb-btn" onclick="zoomLightbox(0.25)">＋ 放大</button>
       <button type="button" class="lb-btn" onclick="zoomLightbox(-0.25)">－ 缩小</button>
       <button type="button" class="lb-btn" onclick="resetLightboxZoom()">1:1 复位</button>
@@ -1005,12 +1008,11 @@
 
   function loadTengwanggeScrollLogo() {
     currentFontVersion = 'v2';
-    document.getElementById('fv_v1').classList.remove('selected');
-    document.getElementById('fv_v2').classList.add('selected');
-    if (document.getElementById('pt_v1')) document.getElementById('pt_v1').classList.remove('active');
-    if (document.getElementById('pt_v2')) document.getElementById('pt_v2').classList.add('active');
-    if (document.getElementById('lb_v1')) document.getElementById('lb_v1').classList.remove('active');
-    if (document.getElementById('lb_v2')) document.getElementById('lb_v2').classList.add('active');
+    ['v1', 'v2', 'bold'].forEach(k => {
+      if (document.getElementById('fv_' + k)) document.getElementById('fv_' + k).classList.toggle('selected', k === 'v2');
+      if (document.getElementById('pt_' + k)) document.getElementById('pt_' + k).classList.toggle('active', k === 'v2');
+      if (document.getElementById('lb_' + k)) document.getElementById('lb_' + k).classList.toggle('active', k === 'v2');
+    });
     const cb = document.getElementById('admAutoExpandCols');
     if (cb && isAdmin) {
       cb.checked = true;
@@ -1284,12 +1286,11 @@
 
   function setFontVersion(ver) {
     currentFontVersion = ver;
-    document.getElementById('fv_v1').classList.toggle('selected', ver === 'v1');
-    document.getElementById('fv_v2').classList.toggle('selected', ver === 'v2');
-    if (document.getElementById('pt_v1')) document.getElementById('pt_v1').classList.toggle('active', ver === 'v1');
-    if (document.getElementById('pt_v2')) document.getElementById('pt_v2').classList.toggle('active', ver === 'v2');
-    if (document.getElementById('lb_v1')) document.getElementById('lb_v1').classList.toggle('active', ver === 'v1');
-    if (document.getElementById('lb_v2')) document.getElementById('lb_v2').classList.toggle('active', ver === 'v2');
+    ['v1', 'v2', 'bold'].forEach(k => {
+      if (document.getElementById('fv_' + k)) document.getElementById('fv_' + k).classList.toggle('selected', ver === k);
+      if (document.getElementById('pt_' + k)) document.getElementById('pt_' + k).classList.toggle('active', ver === k);
+      if (document.getElementById('lb_' + k)) document.getElementById('lb_' + k).classList.toggle('active', ver === k);
+    });
     if (typeof saveStudioState === 'function') saveStudioState();
     submitRender();
   }

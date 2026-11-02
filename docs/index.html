@@ -793,11 +793,14 @@
 
     <div class="options-grid">
       <div>
-        <span class="opt-label">字库版本（一键切换对比三版神韵）：</span>
+        <span class="opt-label">字库版本（一键切换对比 5 大精修/原拓家族神韵）：</span>
         <div class="radio-group" style="grid-template-columns: repeat(3, 1fr);">
           <div class="radio-card selected" id="fv_v2" onclick="setFontVersion('v2')">✨ 原典精修</div>
+          <div class="radio-card" id="fv_std" onclick="setFontVersion('std')">⚖️ 精修标准</div>
           <div class="radio-card" id="fv_bold" onclick="setFontVersion('bold')">🖋️ 浓墨高清</div>
-          <div class="radio-card" id="fv_v1" onclick="setFontVersion('v1')">📜 第一版</div>
+          <div class="radio-card" id="fv_light" onclick="setFontVersion('light')">🎋 纤秀清朗</div>
+          <div class="radio-card" id="fv_antique" onclick="setFontVersion('antique')">📜 手写原拓</div>
+          <div class="radio-card" id="fv_v1" onclick="setFontVersion('v1')">🏛️ 第一版</div>
         </div>
       </div>
       <div>
@@ -830,8 +833,11 @@
       </div>
       <div class="preview-toolbar">
         <span class="pt-btn active" id="pt_v2" onclick="setFontVersion('v2'); submitRender();">✨ 原典精修</span>
+        <span class="pt-btn" id="pt_std" onclick="setFontVersion('std'); submitRender();">⚖️ 精修标准</span>
         <span class="pt-btn" id="pt_bold" onclick="setFontVersion('bold'); submitRender();">🖋️ 浓墨高清</span>
-        <span class="pt-btn" id="pt_v1" onclick="setFontVersion('v1'); submitRender();">📜 第一版</span>
+        <span class="pt-btn" id="pt_light" onclick="setFontVersion('light'); submitRender();">🎋 纤秀清朗</span>
+        <span class="pt-btn" id="pt_antique" onclick="setFontVersion('antique'); submitRender();">📜 手写原拓</span>
+        <span class="pt-btn" id="pt_v1" onclick="setFontVersion('v1'); submitRender();">🏛️ 第一版</span>
         <span class="pt-btn" onclick="openLightbox()">🔍 点击全屏放大镜</span>
       </div>
     </div>
@@ -907,9 +913,12 @@
   <div class="lb-topbar" onclick="event.stopPropagation()">
     <div>🔍 <strong>博物院级超清放大镜鉴赏</strong>（支持鼠标滚轮无极缩放 · 按住左键拖拽平移 · 按 ESC 退出）</div>
     <div class="lb-controls">
-      <button type="button" class="lb-btn active" id="lb_v2" onclick="setFontVersion('v2'); submitRender();">✨ 原典精修版</button>
-      <button type="button" class="lb-btn" id="lb_bold" onclick="setFontVersion('bold'); submitRender();">🖋️ 浓墨高清版</button>
-      <button type="button" class="lb-btn" id="lb_v1" onclick="setFontVersion('v1'); submitRender();">📜 第一版</button>
+      <button type="button" class="lb-btn active" id="lb_v2" onclick="setFontVersion('v2'); submitRender();">✨ 原典精修</button>
+      <button type="button" class="lb-btn" id="lb_std" onclick="setFontVersion('std'); submitRender();">⚖️ 精修标准</button>
+      <button type="button" class="lb-btn" id="lb_bold" onclick="setFontVersion('bold'); submitRender();">🖋️ 浓墨高清</button>
+      <button type="button" class="lb-btn" id="lb_light" onclick="setFontVersion('light'); submitRender();">🎋 纤秀清朗</button>
+      <button type="button" class="lb-btn" id="lb_antique" onclick="setFontVersion('antique'); submitRender();">📜 手写原拓</button>
+      <button type="button" class="lb-btn" id="lb_v1" onclick="setFontVersion('v1'); submitRender();">🏛️ 第一版</button>
       <button type="button" class="lb-btn" onclick="zoomLightbox(0.25)">＋ 放大</button>
       <button type="button" class="lb-btn" onclick="zoomLightbox(-0.25)">－ 缩小</button>
       <button type="button" class="lb-btn" onclick="resetLightboxZoom()">1:1 复位</button>
@@ -1008,7 +1017,7 @@
 
   function loadTengwanggeScrollLogo() {
     currentFontVersion = 'v2';
-    ['v1', 'v2', 'bold'].forEach(k => {
+    ['v1', 'v2', 'std', 'bold', 'light', 'antique'].forEach(k => {
       if (document.getElementById('fv_' + k)) document.getElementById('fv_' + k).classList.toggle('selected', k === 'v2');
       if (document.getElementById('pt_' + k)) document.getElementById('pt_' + k).classList.toggle('active', k === 'v2');
       if (document.getElementById('lb_' + k)) document.getElementById('lb_' + k).classList.toggle('active', k === 'v2');
@@ -1286,7 +1295,7 @@
 
   function setFontVersion(ver) {
     currentFontVersion = ver;
-    ['v1', 'v2', 'bold'].forEach(k => {
+    ['v1', 'v2', 'std', 'bold', 'light', 'antique'].forEach(k => {
       if (document.getElementById('fv_' + k)) document.getElementById('fv_' + k).classList.toggle('selected', ver === k);
       if (document.getElementById('pt_' + k)) document.getElementById('pt_' + k).classList.toggle('active', ver === k);
       if (document.getElementById('lb_' + k)) document.getElementById('lb_' + k).classList.toggle('active', ver === k);

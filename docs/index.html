@@ -914,14 +914,14 @@
 <!-- 全屏博物院级无极缩放灯箱 -->
 <div class="lightbox-overlay" id="lightboxModal" onclick="handleLightboxBgClick(event)">
   <div class="lb-topbar" onclick="event.stopPropagation()">
-    <div>🔍 <strong>博物院级超清放大镜鉴赏</strong>（支持鼠标滚轮无极缩放 · 按住左键拖拽平移 · 按 ESC 退出）</div>
+    <div id="lbTopTitleText">🔍 <strong>博物院级超清放大镜鉴赏</strong>（支持鼠标滚轮无极缩放 · 按住左键拖拽平移 · 按 ESC 退出）</div>
     <div class="lb-controls">
-      <button type="button" class="lb-btn active" id="lb_v2" onclick="setFontVersion('v2'); submitRender();">✨ 原典精修</button>
-      <button type="button" class="lb-btn" id="lb_std" onclick="setFontVersion('std'); submitRender();">⚖️ 精修标准</button>
-      <button type="button" class="lb-btn" id="lb_bold" onclick="setFontVersion('bold'); submitRender();">🖋️ 浓墨高清</button>
-      <button type="button" class="lb-btn" id="lb_light" onclick="setFontVersion('light'); submitRender();">🎋 纤秀清朗</button>
-      <button type="button" class="lb-btn" id="lb_antique" onclick="setFontVersion('antique'); submitRender();">📜 手写原拓</button>
-      <button type="button" class="lb-btn" id="lb_v1" onclick="setFontVersion('v1'); submitRender();">🏛️ 第一版</button>
+      <button type="button" class="lb-btn active" id="lb_v2" onclick="handleLightboxFontSwitch('v2')">✨ 原典精修</button>
+      <button type="button" class="lb-btn" id="lb_std" onclick="handleLightboxFontSwitch('std')">⚖️ 精修标准</button>
+      <button type="button" class="lb-btn" id="lb_bold" onclick="handleLightboxFontSwitch('bold')">🖋️ 浓墨高清</button>
+      <button type="button" class="lb-btn" id="lb_light" onclick="handleLightboxFontSwitch('light')">🎋 纤秀清朗</button>
+      <button type="button" class="lb-btn" id="lb_antique" onclick="handleLightboxFontSwitch('antique')">📜 手写原拓</button>
+      <button type="button" class="lb-btn" id="lb_v1" onclick="handleLightboxFontSwitch('v1')">🏛️ 第一版</button>
       <button type="button" class="lb-btn" onclick="zoomLightbox(0.25)">＋ 放大</button>
       <button type="button" class="lb-btn" onclick="zoomLightbox(-0.25)">－ 缩小</button>
       <button type="button" class="lb-btn" onclick="resetLightboxZoom()">1:1 复位</button>
@@ -1184,7 +1184,7 @@
     }).join('');
   }
 
-  function selectPoemById(pid) {
+  function selectPoemById(pid, autoRender = true) {
     const item = anthology.find(x => x.id === pid);
     if (!item) return;
     selectedPoem = item;
@@ -1193,6 +1193,9 @@
     });
     applySelectedPoemToFields();
     renderPoemList();
+    if (autoRender !== false && typeof onTopPoemSelectedForWallpaper === 'function') {
+      onTopPoemSelectedForWallpaper(pid);
+    }
     if (!isAdmin && _clientBlobCache.has(`pub|${pid}|${currentFontVersion}|${currentEdition}|${currentStyle}`)) {
       submitRender();
     }
@@ -1301,10 +1304,18 @@
     ['v1', 'v2', 'std', 'bold', 'light', 'antique'].forEach(k => {
       if (document.getElementById('fv_' + k)) document.getElementById('fv_' + k).classList.toggle('selected', ver === k);
       if (document.getElementById('pt_' + k)) document.getElementById('pt_' + k).classList.toggle('active', ver === k);
-      if (document.getElementById('lb_' + k)) document.getElementById('lb_' + k).classList.toggle('active', ver === k);
+      if (window._lightboxMode !== 'wallpaper' && document.getElementById('lb_' + k)) document.getElementById('lb_' + k).classList.toggle('active', ver === k);
     });
     if (typeof saveStudioState === 'function') saveStudioState();
     submitRender();
+  }
+
+  function handleLightboxFontSwitch(ver) {
+    if (window._lightboxMode === 'wallpaper' && typeof setWallpaperFontVersion === 'function') {
+      setWallpaperFontVersion(ver === 'v1' ? 'v2' : ver);
+      return;
+    }
+    setFontVersion(ver);
   }
 
   function setEdition(ed) {
@@ -1340,6 +1351,14 @@
   }
 
   function openLightbox() {
+    window._lightboxMode = 'copybook';
+    const lbTitle = document.getElementById('lbTopTitleText');
+    if (lbTitle) lbTitle.innerHTML = '🔍 <strong>博物院级超清放大镜鉴赏</strong>（支持鼠标滚轮无极缩放 · 按住左键拖拽平移 · 按 ESC 退出）';
+    const lbV1 = document.getElementById('lb_v1');
+    if (lbV1) lbV1.style.display = '';
+    ['v1', 'v2', 'std', 'bold', 'light', 'antique'].forEach(k => {
+      if (document.getElementById('lb_' + k)) document.getElementById('lb_' + k).classList.toggle('active', currentFontVersion === k);
+    });
     const src = document.getElementById('resultImg').src;
     const lbImg = document.getElementById('lightboxImg');
     lbImg.src = src;
@@ -1468,7 +1487,7 @@
       _cImg.src = cachedUrl;
       try { if (_cImg.decode) await _cImg.decode(); } catch (e) {}
       if (typeof fetchCurrentCopybookHitmap === 'function') await fetchCurrentCopybookHitmap(true);
-      if (document.getElementById('lightboxModal').classList.contains('open')) {
+      if (document.getElementById('lightboxModal').classList.contains('open') && window._lightboxMode !== 'wallpaper') {
         document.getElementById('lightboxImg').src = cachedUrl;
       }
       const dl = document.getElementById('downloadLink');
@@ -1550,7 +1569,7 @@
       _oImg.src = objUrl;
       try { if (_oImg.decode) await _oImg.decode(); } catch (e) {}
       if (typeof fetchCurrentCopybookHitmap === 'function') await fetchCurrentCopybookHitmap(true);
-      if (document.getElementById('lightboxModal').classList.contains('open')) {
+      if (document.getElementById('lightboxModal').classList.contains('open') && window._lightboxMode !== 'wallpaper') {
         document.getElementById('lightboxImg').src = objUrl;
       }
       const dl = document.getElementById('downloadLink');

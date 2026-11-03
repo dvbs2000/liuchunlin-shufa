@@ -796,14 +796,15 @@
 
     <div class="options-grid">
       <div>
-        <span class="opt-label">字库版本（一键切换对比 5 大精修/原拓家族神韵）：</span>
+        <span class="opt-label">字库版本（一键切换对比 6 大精修/硬笔/原拓家族神韵）：</span>
         <div class="radio-group" style="grid-template-columns: repeat(3, 1fr);">
           <div class="radio-card selected" id="fv_v2" onclick="setFontVersion('v2')">✨ 原典精修</div>
           <div class="radio-card" id="fv_std" onclick="setFontVersion('std')">⚖️ 精修标准</div>
+          <div class="radio-card" id="fv_pen" onclick="setFontVersion('pen')">✒️ 硬笔钢笔</div>
           <div class="radio-card" id="fv_bold" onclick="setFontVersion('bold')">🖋️ 浓墨高清</div>
           <div class="radio-card" id="fv_light" onclick="setFontVersion('light')">🎋 纤秀清朗</div>
           <div class="radio-card" id="fv_antique" onclick="setFontVersion('antique')">📜 手写原拓</div>
-          <div class="radio-card" id="fv_v1" onclick="setFontVersion('v1')">🏛️ 第一版</div>
+          <div class="radio-card" id="fv_v1" onclick="setFontVersion('v1')" style="display:none;">🏛️ 第一版</div>
         </div>
       </div>
       <div>
@@ -837,6 +838,7 @@
       <div class="preview-toolbar">
         <span class="pt-btn active" id="pt_v2" onclick="setFontVersion('v2')">✨ 原典精修</span>
         <span class="pt-btn" id="pt_std" onclick="setFontVersion('std')">⚖️ 精修标准</span>
+        <span class="pt-btn" id="pt_pen" onclick="setFontVersion('pen')">✒️ 硬笔钢笔</span>
         <span class="pt-btn" id="pt_bold" onclick="setFontVersion('bold')">🖋️ 浓墨高清</span>
         <span class="pt-btn" id="pt_light" onclick="setFontVersion('light')">🎋 纤秀清朗</span>
         <span class="pt-btn" id="pt_antique" onclick="setFontVersion('antique')">📜 手写原拓</span>
@@ -918,6 +920,7 @@
     <div class="lb-controls">
       <button type="button" class="lb-btn active" id="lb_v2" onclick="handleLightboxFontSwitch('v2')">✨ 原典精修</button>
       <button type="button" class="lb-btn" id="lb_std" onclick="handleLightboxFontSwitch('std')">⚖️ 精修标准</button>
+      <button type="button" class="lb-btn" id="lb_pen" onclick="handleLightboxFontSwitch('pen')">✒️ 硬笔钢笔</button>
       <button type="button" class="lb-btn" id="lb_bold" onclick="handleLightboxFontSwitch('bold')">🖋️ 浓墨高清</button>
       <button type="button" class="lb-btn" id="lb_light" onclick="handleLightboxFontSwitch('light')">🎋 纤秀清朗</button>
       <button type="button" class="lb-btn" id="lb_antique" onclick="handleLightboxFontSwitch('antique')">📜 手写原拓</button>
@@ -1020,7 +1023,7 @@
 
   function loadTengwanggeScrollLogo() {
     currentFontVersion = 'v2';
-    ['v1', 'v2', 'std', 'bold', 'light', 'antique'].forEach(k => {
+    ['v1', 'v2', 'std', 'pen', 'bold', 'light', 'antique'].forEach(k => {
       if (document.getElementById('fv_' + k)) document.getElementById('fv_' + k).classList.toggle('selected', k === 'v2');
       if (document.getElementById('pt_' + k)) document.getElementById('pt_' + k).classList.toggle('active', k === 'v2');
       if (document.getElementById('lb_' + k)) document.getElementById('lb_' + k).classList.toggle('active', k === 'v2');
@@ -1302,7 +1305,7 @@
   function setFontVersion(ver) {
     currentFontVersion = ver;
     const isWpLbOpen = (window._lightboxMode === 'wallpaper') && Boolean(document.getElementById('lightboxModal') && document.getElementById('lightboxModal').classList.contains('open'));
-    ['v1', 'v2', 'std', 'bold', 'light', 'antique'].forEach(k => {
+    ['v1', 'v2', 'std', 'pen', 'bold', 'light', 'antique'].forEach(k => {
       if (document.getElementById('fv_' + k)) document.getElementById('fv_' + k).classList.toggle('selected', ver === k);
       if (document.getElementById('pt_' + k)) document.getElementById('pt_' + k).classList.toggle('active', ver === k);
       if (!isWpLbOpen && document.getElementById('lb_' + k)) document.getElementById('lb_' + k).classList.toggle('active', ver === k);
@@ -1360,7 +1363,7 @@
     if (lbTitle) lbTitle.innerHTML = '🔍 <strong>博物院级超清放大镜鉴赏</strong>（支持鼠标滚轮无极缩放 · 按住左键拖拽平移 · 按 ESC 退出）';
     const lbV1 = document.getElementById('lb_v1');
     if (lbV1) lbV1.style.display = '';
-    ['v1', 'v2', 'std', 'bold', 'light', 'antique'].forEach(k => {
+    ['v1', 'v2', 'std', 'pen', 'bold', 'light', 'antique'].forEach(k => {
       if (document.getElementById('lb_' + k)) document.getElementById('lb_' + k).classList.toggle('active', currentFontVersion === k);
     });
     const src = document.getElementById('resultImg').src;
@@ -1461,7 +1464,7 @@
     const titleVal = document.getElementById('titleInput').value.trim();
     const authorVal = document.getElementById('authorInput').value.trim();
     const tClean = (titleVal || '书法作品').replace(/[\\/:*?"<>|]/g, '');
-    const _VER_LABELS = { v2: '原典精修', std: '精修标准', bold: '浓墨高清', light: '纤秀清朗', antique: '手写原拓', v1: '第一版' };
+    const _VER_LABELS = { v2: '原典精修', std: '精修标准', pen: '硬笔钢笔', bold: '浓墨高清', light: '纤秀清朗', antique: '手写原拓', v1: '第一版' };
     const verLabel = _VER_LABELS[currentFontVersion] || '原典精修';
 
     const activeVipCode = localStorage.getItem('liuchunlin_vip_code') || '';

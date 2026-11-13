@@ -510,12 +510,12 @@
     .preview-toolbar {
       display: flex;
       flex-wrap: wrap;
-      gap: 5px;
+      gap: 4px;
       align-items: center;
     }
     .pt-btn {
-      font-size: 11.2px;
-      padding: 3px 9px;
+      font-size: 10.8px;
+      padding: 2px 6px;
       border-radius: 5px;
       background: #eee3d0;
       color: #524333;
@@ -796,9 +796,11 @@
 
     <div class="options-grid">
       <div>
-        <span class="opt-label">字库版本（一键切换对比 7 大正楷/精修/硬笔/原拓家族神韵）：</span>
-        <div class="radio-group" style="grid-template-columns: repeat(4, 1fr);">
+        <span class="opt-label">字库版本（一键切换对比 9 大正楷/三帖/精修/硬笔/原拓家族神韵）：</span>
+        <div class="radio-group" style="display:grid; grid-template-columns: repeat(3, 1fr); gap:3px;">
           <div class="radio-card" id="fv_zhengkai" onclick="setFontVersion('zhengkai')">👑 状元正楷</div>
+          <div class="radio-card" id="fv_v3b" onclick="setFontVersion('v3b')">🏛️ 三帖精修</div>
+          <div class="radio-card" id="fv_v3a" onclick="setFontVersion('v3a')">🏺 初版精修</div>
           <div class="radio-card selected" id="fv_v2" onclick="setFontVersion('v2')">✨ 原典精修</div>
           <div class="radio-card" id="fv_std" onclick="setFontVersion('std')">⚖️ 精修标准</div>
           <div class="radio-card" id="fv_pen" onclick="setFontVersion('pen')">✒️ 硬笔钢笔</div>
@@ -838,13 +840,15 @@
       </div>
       <div class="preview-toolbar">
         <span class="pt-btn" id="pt_zhengkai" onclick="setFontVersion('zhengkai')">👑 状元正楷</span>
+        <span class="pt-btn" id="pt_v3b" onclick="setFontVersion('v3b')">🏛️ 三帖精修</span>
+        <span class="pt-btn" id="pt_v3a" onclick="setFontVersion('v3a')">🏺 初版精修</span>
         <span class="pt-btn active" id="pt_v2" onclick="setFontVersion('v2')">✨ 原典精修</span>
         <span class="pt-btn" id="pt_std" onclick="setFontVersion('std')">⚖️ 精修标准</span>
         <span class="pt-btn" id="pt_pen" onclick="setFontVersion('pen')">✒️ 硬笔钢笔</span>
         <span class="pt-btn" id="pt_bold" onclick="setFontVersion('bold')">🖋️ 浓墨高清</span>
         <span class="pt-btn" id="pt_light" onclick="setFontVersion('light')">🎋 纤秀清朗</span>
         <span class="pt-btn" id="pt_antique" onclick="setFontVersion('antique')">📜 手写原拓</span>
-        <span class="pt-btn" id="pt_v1" onclick="setFontVersion('v1')">🏛️ 第一版</span>
+        <span class="pt-btn" id="pt_v1" onclick="setFontVersion('v1')" style="display:none;">🏛️ 第一版</span>
         <span class="pt-btn" onclick="openLightbox()">🔍 点击全屏放大镜</span>
       </div>
     </div>
@@ -921,6 +925,8 @@
     <div id="lbTopTitleText">🔍 <strong>博物院级超清放大镜鉴赏</strong>（支持鼠标滚轮无极缩放 · 按住左键拖拽平移 · 按 ESC 退出）</div>
     <div class="lb-controls">
       <button type="button" class="lb-btn" id="lb_zhengkai" onclick="handleLightboxFontSwitch('zhengkai')">👑 状元正楷</button>
+      <button type="button" class="lb-btn" id="lb_v3b" onclick="handleLightboxFontSwitch('v3b')">🏛️ 三帖精修</button>
+      <button type="button" class="lb-btn" id="lb_v3a" onclick="handleLightboxFontSwitch('v3a')">🏺 初版精修</button>
       <button type="button" class="lb-btn active" id="lb_v2" onclick="handleLightboxFontSwitch('v2')">✨ 原典精修</button>
       <button type="button" class="lb-btn" id="lb_std" onclick="handleLightboxFontSwitch('std')">⚖️ 精修标准</button>
       <button type="button" class="lb-btn" id="lb_pen" onclick="handleLightboxFontSwitch('pen')">✒️ 硬笔钢笔</button>
@@ -1026,7 +1032,7 @@
 
   function loadTengwanggeScrollLogo() {
     currentFontVersion = 'v2';
-    ['v1', 'v2', 'zhengkai', 'std', 'pen', 'bold', 'light', 'antique'].forEach(k => {
+    ['v1', 'v2', 'v3b', 'v3a', 'zhengkai', 'std', 'pen', 'bold', 'light', 'antique'].forEach(k => {
       if (document.getElementById('fv_' + k)) document.getElementById('fv_' + k).classList.toggle('selected', k === 'v2');
       if (document.getElementById('pt_' + k)) document.getElementById('pt_' + k).classList.toggle('active', k === 'v2');
       if (document.getElementById('lb_' + k)) document.getElementById('lb_' + k).classList.toggle('active', k === 'v2');
@@ -1308,7 +1314,7 @@
   function setFontVersion(ver) {
     currentFontVersion = ver;
     const isWpLbOpen = (window._lightboxMode === 'wallpaper') && Boolean(document.getElementById('lightboxModal') && document.getElementById('lightboxModal').classList.contains('open'));
-    ['v1', 'v2', 'zhengkai', 'std', 'pen', 'bold', 'light', 'antique'].forEach(k => {
+    ['v1', 'v2', 'v3b', 'v3a', 'zhengkai', 'std', 'pen', 'bold', 'light', 'antique'].forEach(k => {
       if (document.getElementById('fv_' + k)) document.getElementById('fv_' + k).classList.toggle('selected', ver === k);
       if (document.getElementById('pt_' + k)) document.getElementById('pt_' + k).classList.toggle('active', ver === k);
       if (!isWpLbOpen && document.getElementById('lb_' + k)) document.getElementById('lb_' + k).classList.toggle('active', ver === k);
@@ -1366,7 +1372,7 @@
     if (lbTitle) lbTitle.innerHTML = '🔍 <strong>博物院级超清放大镜鉴赏</strong>（支持鼠标滚轮无极缩放 · 按住左键拖拽平移 · 按 ESC 退出）';
     const lbV1 = document.getElementById('lb_v1');
     if (lbV1) lbV1.style.display = '';
-    ['v1', 'v2', 'zhengkai', 'std', 'pen', 'bold', 'light', 'antique'].forEach(k => {
+    ['v1', 'v2', 'v3b', 'v3a', 'zhengkai', 'std', 'pen', 'bold', 'light', 'antique'].forEach(k => {
       if (document.getElementById('lb_' + k)) document.getElementById('lb_' + k).classList.toggle('active', currentFontVersion === k);
     });
     const src = document.getElementById('resultImg').src;
@@ -1467,7 +1473,7 @@
     const titleVal = document.getElementById('titleInput').value.trim();
     const authorVal = document.getElementById('authorInput').value.trim();
     const tClean = (titleVal || '书法作品').replace(/[\\/:*?"<>|]/g, '');
-    const _VER_LABELS = { v2: '原典精修', std: '精修标准', pen: '硬笔钢笔', bold: '浓墨高清', light: '纤秀清朗', antique: '手写原拓', v1: '第一版' };
+    const _VER_LABELS = { zhengkai: '状元正楷', v3b: '三帖精修', v3a: '初版精修', v2: '原典精修', std: '精修标准', pen: '硬笔钢笔', bold: '浓墨高清', light: '纤秀清朗', antique: '手写原拓', v1: '第一版' };
     const verLabel = _VER_LABELS[currentFontVersion] || '原典精修';
 
     const activeVipCode = localStorage.getItem('liuchunlin_vip_code') || '';
